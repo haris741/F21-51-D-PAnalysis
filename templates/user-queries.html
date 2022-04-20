@@ -1,0 +1,574 @@
+{% include 'user-nav.html' %}
+
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-md-12 grid-margin">
+                <div class="row">
+                  <div class="col-12 col-xl-6 mt-4">
+                    <h3 class="font-weight-bold">Property</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row" style="margin-top: 3%;">
+                      <div class="col-lg-6 col-md-12 col-12">
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          id="selectedGroup"
+                          disabled
+                          data-toggle="modal"
+                          data-target="#viewGroupModal"
+                        >
+                          <i
+                            class="fa fa-window-restore"
+                            aria-hidden="true"
+                          ></i>
+                          Add Selected to Group
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          style="margin-left: 10px;"
+                          id="createReport"
+                          onclick="location.href = 'user-create-report.html';"
+                          disabled
+                        >
+                          <i
+                            class="fa fa-file-text me-1"
+                            aria-hidden="true"
+                          ></i>
+                          Create report with selected
+                        </button>
+                      </div>
+                      <div
+                        class="col-lg-6 col-12"
+                        style="display: flex; justify-content: right;"
+                      >
+                        <input
+                          type="text"
+                          id="searchBox"
+                          class="search-bar-input"
+                          onkeyup="myFunction()"
+                          placeholder="Search Here..."
+                        />
+                        <button class="search-bar-button">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="table-responsive mt-2">
+                      <table id="pager" class="table table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">
+                              <div class="form-check mb-0">
+                                <label class="form-check-label">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input check-all"
+                                    onclick="selectAll(this)"
+                                  />
+                                </label>
+                              </div>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Country</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Address</th>
+                            <th class="text-center" scope="col">Aspects</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="col">
+                              <div class="form-check mb-0">
+                                <label class="form-check-label">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input select-check"
+                                  />
+                                </label>
+                              </div>
+                            </th>
+                            <td>
+                              28 Dunlop Backpacker Hostel
+                              <br />
+                              Pte Ltd
+                            </td>
+                            <td>
+                              Singapore
+                            </td>
+                            <td>Singapore</td>
+                            <td>
+                              28 Dunlop Street Kawan Hostel ,
+                              <br />
+                              Singapore 209356, Singapore
+                            </td>
+                            <td class="text-center">
+                              <div class="badge badge-danger">bed</div>
+                              <div class="badge badge-warning">hostel</div>
+                              <div class="badge badge-success">area</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="col">
+                              <div class="form-check mb-0">
+                                <label class="form-check-label">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input select-check"
+                                  />
+                                </label>
+                              </div>
+                            </th>
+                            <td>
+                              2RIZ Downtown Backpackers
+                              <br />
+                              Hostel
+                            </td>
+                            <td>
+                              Singapore
+                            </td>
+                            <td>Singapore</td>
+                            <td>
+                              45 Syed Alwi Road , Singapore
+                              <br />
+                              207636, Singapore
+                            </td>
+                            <td class="text-center">
+                              <div class="badge badge-danger">bed</div>
+                              <div class="badge badge-warning">night</div>
+                              <div class="badge badge-warning">hostel</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="col">
+                              <div class="form-check mb-0">
+                                <label class="form-check-label">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input select-check"
+                                  />
+                                </label>
+                              </div>
+                            </th>
+                            <td>
+                              2RIZ Downtown Backpackers
+                              <br />
+                              Hostel
+                            </td>
+                            <td>
+                              Singapore
+                            </td>
+                            <td>Singapore</td>
+                            <td>
+                              45 Syed Alwi Road , Singapore
+                              <br />
+                              207636, Singapore
+                            </td>
+                            <td class="text-center">
+                              <div class="badge badge-danger"  data-toggle="modal"
+                              data-target="#viewAspects">View All Aspects</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="col">
+                              <div class="form-check mb-0">
+                                <label class="form-check-label">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input select-check"
+                                  />
+                                </label>
+                              </div>
+                            </th>
+                            <td>
+                              2RIZ Downtown Backpackers
+                              <br />
+                              Hostel
+                            </td>
+                            <td>
+                              Singapore
+                            </td>
+                            <td>Singapore</td>
+                            <td>
+                              45 Syed Alwi Road , Singapore
+                              <br />
+                              207636, Singapore
+                            </td>
+                            <td class="text-center">
+                              <div class="badge badge-danger">bed</div>
+                              <div class="badge badge-warning">night</div>
+                              <div class="badge badge-warning">hostel</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="col">
+                              <div class="form-check mb-0">
+                                <label class="form-check-label">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input select-check"
+                                  />
+                                </label>
+                              </div>
+                            </th>
+                            <td>
+                              2RIZ Downtown Backpackers
+                              <br />
+                              Hostel
+                            </td>
+                            <td>
+                              Singapore
+                            </td>
+                            <td>Singapore</td>
+                            <td>
+                              45 Syed Alwi Road , Singapore
+                              <br />
+                              207636, Singapore
+                            </td>
+                            <td class="text-center">
+                              <div class="badge badge-warning">night</div>
+                              <div class="badge badge-success">area</div>
+                              <div class="badge badge-warning">hostel</div>
+                              <div class="badge badge-danger">bed</div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div id="pageNavPosition" class="pager-nav"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center">
+              <span
+                class="text-gernal text-center text-sm-left d-block d-sm-inline-block"
+              >
+                Copyright © 2022. All rights reserved.
+                <a href="https://www.themewagon.com/" target="_blank">
+                  Sentimantle
+                </a>
+              </span>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="changePasswordModal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLongTitle">
+              Change Password
+            </h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div
+            class="modal-body p-4"
+            style="padding-top: 0px !important;"
+          ></div>
+          <div class="modal-footer p-4">
+            <button
+              type="button"
+              class="btn btn-primary mr-0"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-light">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="viewGroupModal"
+      tabindex="1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLongTitle">Edit Group</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-4" style="padding-top: 0px;">
+            <form>
+              <div class="form-group mb-2">
+                <label for="exampleInputEmail1 mb-0">
+                  Select a group from the list or type a new name
+                  <b class="text-primary">*</b>
+                </label>
+                <input
+                  list="groups-list"
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="exampleInputEmail1"
+                  placeholder="Group Name"
+                />
+                <datalist id="groups-list" style="appearance: none !important;">
+                  <option value="Group 1"></option>
+                  <option value="Group 2"></option>
+                  <option value="Group 3"></option>
+                  <option value="Group 4"></option>
+                  <option value="Group 5"></option>
+                  <option value="Group 6"></option>
+                </datalist>
+              </div>
+              <div class="form-group mb-0 mt-3">
+                <label for="exampleInputEmail1">
+                  Add Hotels in Group
+                  <b class="text-primary">*</b>
+                </label>
+                <select
+                  id="choices-multiple-remove-button"
+                  class="form-select rounded-pill selectlang"
+                  placeholder="Add Hotels"
+                  multiple
+                  style="background-color: #fdf5f5;"
+                >
+                  <option disabled>Select Hotels</option>
+                  <option value="af">30 Bencoolen</option>
+                  <option value="sq">38 Geylang Lorong 8</option>
+                  <option value="am">3D Harmony Backpackers Hostel</option>
+                  <option value="ar">5 footway.inn Projct Ann Siang</option>
+                  <option value="an">28 Dunlop</option>
+                  <option value="hy">39 Geylang Lorong 8</option>
+                  <option value="ast">40 Geylang Lorong 8</option>
+                  <option value="az">29 Geylang Lorong 8</option>
+                  <option value="eu">29 Geylang Lorong 8</option>
+                  <option value="be">11 Geylang Lorong 8</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer p-4">
+            <button
+              type="button"
+              class="btn btn-primary mr-0 fw-bold d-inline px-3 py-2"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-light fw-bold d-inline px-3 py-2"
+            >
+              Save as new
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="viewAspects" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLongTitle">View All Aspects</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-4" style="padding-top: 0px;">
+            <div class="text-center">
+                   <div class="badge badge-warning mt-1">night</div>
+                    <div class="badge badge-success mt-1">area</div>
+                    <div class="badge badge-warning mt-1">hostel</div>
+                    <div class="badge badge-danger mt-1">bed</div>
+                    <div class="badge badge-warning mt-1">night</div>
+                    <div class="badge badge-success mt-1">area</div>
+                    <div class="badge badge-warning mt-1">hostel</div>
+                    <div class="badge badge-danger mt-1">bed</div>
+                    <div class="badge badge-warning mt-1">night</div>
+                    <div class="badge badge-success mt-1">area</div>
+                    <div class="badge badge-warning mt-1">hostel</div>
+                    <div class="badge badge-danger mt-1">bed</div>
+                    <div class="badge badge-warning mt-1">night</div>
+                    <div class="badge badge-success mt-1">area</div>
+                    <div class="badge badge-warning mt-1">hostel</div>
+                    <div class="badge badge-danger mt-1">bed</div>
+                    <div class="badge badge-warning mt-1">hostel</div>
+                    <div class="badge badge-danger mt-1">bed</div>
+                    <div class="badge badge-warning mt-1">night</div>
+                    <div class="badge badge-success mt-1">area</div>
+                    <div class="badge badge-warning mt-1">hostel</div>
+                    <div class="badge badge-danger mt-1">bed</div>
+                    <div class="badge badge-warning mt-1">night</div>
+                    <div class="badge badge-success mt-1">area</div>
+                    <div class="badge badge-warning mt-1">hostel</div>
+                    <div class="badge badge-danger mt-1">bed</div>
+            </div>
+          </div>
+          <div class="modal-footer  p-4">
+            <button type="button" class="btn btn-primary mr-0 fw-bold d-inline px-3 py-2" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-light fw-bold d-inline px-3 py-2">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var navbar_classes = "navbar-danger navbar-success navbar-warning navbar-dark navbar-light navbar-primary navbar-info navbar-pink";
+            var checkTheme = localStorage.getItem("themeColor");
+            if(checkTheme === 'dark-theme'){
+              document.body.classList.toggle("sidebar-dark");
+              document.body.classList.toggle("dark-theme");
+              document.getElementById("pager").classList.toggle("table-dark");
+            }
+            if(document.body.classList.contains("sidebar-dark")){
+              document.getElementById("sidebar-dark-theme").src = "images/sun.png";
+              $(".navbar").removeClass(navbar_classes);
+              $(".navbar").addClass("navbar-dark");
+              $(".tiles").removeClass("selected");
+              $(this).addClass("selected");
+              document.getElementById("logo1").src = "images/logo-white.png";
+            }
+          });
+      function myFunction() {
+        var input,
+          filter,
+          table,
+          tr,
+          td,
+          i,
+          txtValue,
+          txtValue1,
+          txtValue2,
+          txtValue3
+        input = document.getElementById('searchBox')
+        if (input.value !== '') {
+          filter = input.value.toUpperCase()
+          table = document.getElementById('pager')
+          tr = table.getElementsByTagName('tr')
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName('td')[0]
+            td1 = tr[i].getElementsByTagName('td')[1]
+            td2 = tr[i].getElementsByTagName('td')[2]
+            td3 = tr[i].getElementsByTagName('td')[3]
+            if (td) {
+              txtValue = td.textContent || td.innerText
+              txtValue1 = td1.textContent || td1.innerText
+              txtValue2 = td2.textContent || td2.innerText
+              txtValue3 = td3.textContent || td3.innerText
+              if (
+                txtValue.toUpperCase().indexOf(filter) > -1 ||
+                txtValue1.toUpperCase().indexOf(filter) > -1 ||
+                txtValue2.toUpperCase().indexOf(filter) > -1 ||
+                txtValue3.toUpperCase().indexOf(filter) > -1
+              ) {
+                tr[i].style.display = ''
+              } else {
+                tr[i].style.display = 'none'
+              }
+            }
+          }
+        } else {
+          $('table > tbody > tr').hide().slice(0, 4).show()
+        }
+      }
+
+      selectCheck = document.querySelectorAll('.select-check')
+      for (let i = 0; i < selectCheck.length; i++) {
+        selectCheck[i].addEventListener('click', () => {
+          console.log(selectCheck[i].checked)
+          var check = 0
+          if (selectCheck[i].checked) {
+            document.getElementById('createReport').disabled = false
+            document.getElementById('selectedGroup').disabled = false
+          } else {
+            for (let j = 0; j < selectCheck.length; j++) {
+              if (selectCheck[j].checked) {
+                check += 1
+              }
+            }
+            if(check ==0){
+              document.getElementById('createReport').disabled = true
+               document.getElementById('selectedGroup').disabled = true
+            }
+          }
+    }); 
+    
+        function selectAll(checkBtn){
+            if(checkBtn.checked){
+                for(let i=0; i <selectCheck.length; i++){
+                    selectCheck[i].checked = true;
+                }
+                document.getElementById("createReport").disabled = false;
+                document.getElementById("selectedGroup").disabled = false;
+            }else{
+                for(let i=0; i <selectCheck.length; i++){
+                    selectCheck[i].checked = false;
+                }
+                document.getElementById("createReport").disabled = true;
+                document.getElementById("selectedGroup").disabled = true;
+            }
+        }
+    }
+      $(document).ready(function () {
+              var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+                removeItemButton: true,
+                maxItemCount: 10,
+                searchResultLimit: 10,
+                shouldSort: false,
+                renderChoiceLimit: 10
+              });
+            });
+    </script>
+     <script src="vendors/js/vendor.bundle.base.js"></script>
+     <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+     <script src="js/dataTables.select.min.js"></script>
+     <script src="js/off-canvas.js"></script>
+     <script src="js/hoverable-collapse.js"></script>
+     <script src="js/template.js"></script>
+     <script src="js/settings.js"></script>
+     <script src="js/dashboard.js"></script>
+     <script src="js/pagination-custom.js"></script>
+     <script
+       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+       integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+       crossorigin="anonymous"
+     ></script>
+     <script
+       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+       integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+       crossorigin="anonymous"
+     ></script>
+     <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+  </body>
+</html>

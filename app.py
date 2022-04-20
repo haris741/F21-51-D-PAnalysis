@@ -68,6 +68,29 @@ final_key = ''.join(random.choice(letters) for i in range(key))
 
 
 
+@app.route("/user_dashboard")
+def user_dashboard():
+    return render_template("user-dashboard.html")
+
+@app.route("/user_edit_profile")
+def user_edit_profile():
+    return render_template("user-edit-profile.html")
+
+@app.route("/user_groups")
+def user_edit_profile():
+    return render_template("user-groups.html")
+
+@app.route("/user_queries")
+def user_edit_profile():
+    return render_template("user-queries.html")
+
+@app.route("/user_view_report")
+def user_view_report():
+    return render_template("user-view-report.html")
+
+@app.route("/admin_dashboard")
+def admin_dashboard():
+    return render_template("admin-dashboard.html")
 
 @app.route("/uploads/<path>",methods = ['POST', 'GET'])
 def DownloadLogFile (path = None):
@@ -705,108 +728,108 @@ def predict(dataset, username):
 
 # user routing -- redirect to user dashboard  page.
 
-@app.route("/user_home", methods=['GET', 'POST'])
-def user_dashboard():
-    if 'loggedin' in session:
+# @app.route("/user_home", methods=['GET', 'POST'])
+# def user_dashboard():
+#     if 'loggedin' in session:
 
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        s_id = str(session['id'])
-
-
-        cursor.execute(
-            'SELECT CONCAT(firstname, " ", lastname) AS Name , email ,  active_status  FROM users where id=%s', [s_id])
-        user = cursor.fetchone()
-
-        cursor.execute(
-            'SELECT date(invoices.date) as date,plans.name as name ,plans.price as price from users inner join invoices on users.current_invoice = invoices.id INNER JOIN plans ON invoices.plan_id=plans.id where users.id= %s',
-            [s_id])
-        p = cursor.fetchone()
-        # //fix amount here
-
-        cursor.execute(
-            "SELECT u.current_invoice, i.payment_status,i.plan_id, i.active_status, i.duration as duration from users u left outer join  invoices i on i.id= u.current_invoice where u.id=%s;",
-            [s_id])
-        Data = cursor.fetchone()
-        id=Data['plan_id']
-        duration=int(float(Data['duration']))
-        amount=0
-        if duration == 30:
-            cursor.execute('SELECT name , price FROM plans WHERE id = %s',
-                           [id])
-            data = cursor.fetchone()
-        else:
-            cursor.execute('SELECT name , ROUND((price*12)-(price*12*discount*0.01),0) as price FROM plans WHERE id = %s',
-                           [id])
-
-            data = cursor.fetchone()
-        amount=data['price']
-
-        amount = amount * 100
-        cursor.execute("SELECT u.current_invoice, i.payment_status, i.active_status, date(DATE_ADD(i.date,interval i.duration DAY))  as date from users u left outer join  invoices i on i.id= u.current_invoice where u.id=%s;",[s_id])
-        Data = cursor.fetchone()
-
-        cursor.execute(
-            'select p.num_searches as tSearch,p.limits as tLimit from users u inner join invoices i on u.current_invoice=i.id inner join plans p on p.id=i.plan_id  where u.username=%s',
-            [session['username']])
-        planDetails = cursor.fetchone()
-
-        cursor.execute(
-            'select count(*) as count from query where status=1 and user_id=%s',[session['id']]
-        )
-
-        queryUsed=cursor.fetchone()
+#         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#         s_id = str(session['id'])
 
 
-        if request.method == "POST":
-            r=requests.get('https://ipinfo.io/'+request.remote_addr+'/json')
-            r_data=r.json()
-            # country=r_data['region']
-            search = request.form['search']
-            now = datetime.datetime.now()
-            cursor = mysql.connection.cursor()
+#         cursor.execute(
+#             'SELECT CONCAT(firstname, " ", lastname) AS Name , email ,  active_status  FROM users where id=%s', [s_id])
+#         user = cursor.fetchone()
 
-            if queryUsed['count']<planDetails['tSearch']:
-                cursor.execute("select count(*) as count from query where status=0 and user_id=%s;",
-                            [session['id']])
-                searchLimit=cursor.fetchone()
-                if searchLimit[0]>=1:
-                    flash("You already have an active search going on, Please wait to finish it first")
-                else:
-                    cursor.execute("insert into query (id,date,keyword,status,user_id) values (NULL,%s,%s,'1',%s);",
-                                (now, search, s_id))
-                    mysql.connection.commit()
-                    cursor.execute("select id from query where user_id=%s order by date desc;", [session['id']])
-                    Data = cursor.fetchone()
-                    flash("Your new search is in progress - please check your search history for the latest status.")
-                    #try:
-                    # planDetails['tLimit']
-                    db = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                    db.execute('SET NAMES utf8mb4')
-                    db.execute("SET CHARACTER SET utf8mb4")
-                    db.execute("SET character_set_connection=utf8mb4")
-                    mysql.connection.commit()
-                    username = search
-                    obj = Scraper(username)
-                    obj.populateUserData(db)
-                    obj.populateUserTweets(10, db)
-                    db.execute("update query set status=1 where status=0 and keyword=%s and user_id=%s;", (username, session['id']))
+#         cursor.execute(
+#             'SELECT date(invoices.date) as date,plans.name as name ,plans.price as price from users inner join invoices on users.current_invoice = invoices.id INNER JOIN plans ON invoices.plan_id=plans.id where users.id= %s',
+#             [s_id])
+#         p = cursor.fetchone()
+#         # //fix amount here
 
-                    mysql.connection.commit()
+#         cursor.execute(
+#             "SELECT u.current_invoice, i.payment_status,i.plan_id, i.active_status, i.duration as duration from users u left outer join  invoices i on i.id= u.current_invoice where u.id=%s;",
+#             [s_id])
+#         Data = cursor.fetchone()
+#         id=Data['plan_id']
+#         duration=int(float(Data['duration']))
+#         amount=0
+#         if duration == 30:
+#             cursor.execute('SELECT name , price FROM plans WHERE id = %s',
+#                            [id])
+#             data = cursor.fetchone()
+#         else:
+#             cursor.execute('SELECT name , ROUND((price*12)-(price*12*discount*0.01),0) as price FROM plans WHERE id = %s',
+#                            [id])
 
-                    #except:
-                    #pass
-            else:
-                flash("Plan Limit Reached")
+#             data = cursor.fetchone()
+#         amount=data['price']
 
-        return render_template('user_dashboard.html', user=user, p=p, planDetails=planDetails,queryUsed=queryUsed,Data=Data, key=stripe_keys['publishable_key'], amount=amount)
+#         amount = amount * 100
+#         cursor.execute("SELECT u.current_invoice, i.payment_status, i.active_status, date(DATE_ADD(i.date,interval i.duration DAY))  as date from users u left outer join  invoices i on i.id= u.current_invoice where u.id=%s;",[s_id])
+#         Data = cursor.fetchone()
+
+#         cursor.execute(
+#             'select p.num_searches as tSearch,p.limits as tLimit from users u inner join invoices i on u.current_invoice=i.id inner join plans p on p.id=i.plan_id  where u.username=%s',
+#             [session['username']])
+#         planDetails = cursor.fetchone()
+
+#         cursor.execute(
+#             'select count(*) as count from query where status=1 and user_id=%s',[session['id']]
+#         )
+
+#         queryUsed=cursor.fetchone()
 
 
-    else:
+#         if request.method == "POST":
+#             r=requests.get('https://ipinfo.io/'+request.remote_addr+'/json')
+#             r_data=r.json()
+#             # country=r_data['region']
+#             search = request.form['search']
+#             now = datetime.datetime.now()
+#             cursor = mysql.connection.cursor()
 
-        flash("Please Login First")
-        return redirect(url_for('user_login'))
+#             if queryUsed['count']<planDetails['tSearch']:
+#                 cursor.execute("select count(*) as count from query where status=0 and user_id=%s;",
+#                             [session['id']])
+#                 searchLimit=cursor.fetchone()
+#                 if searchLimit[0]>=1:
+#                     flash("You already have an active search going on, Please wait to finish it first")
+#                 else:
+#                     cursor.execute("insert into query (id,date,keyword,status,user_id) values (NULL,%s,%s,'1',%s);",
+#                                 (now, search, s_id))
+#                     mysql.connection.commit()
+#                     cursor.execute("select id from query where user_id=%s order by date desc;", [session['id']])
+#                     Data = cursor.fetchone()
+#                     flash("Your new search is in progress - please check your search history for the latest status.")
+#                     #try:
+#                     # planDetails['tLimit']
+#                     db = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#                     db.execute('SET NAMES utf8mb4')
+#                     db.execute("SET CHARACTER SET utf8mb4")
+#                     db.execute("SET character_set_connection=utf8mb4")
+#                     mysql.connection.commit()
+#                     username = search
+#                     obj = Scraper(username)
+#                     obj.populateUserData(db)
+#                     obj.populateUserTweets(10, db)
+#                     db.execute("update query set status=1 where status=0 and keyword=%s and user_id=%s;", (username, session['id']))
 
-    return render_template('user_dashboard.html')
+#                     mysql.connection.commit()
+
+#                     #except:
+#                     #pass
+#             else:
+#                 flash("Plan Limit Reached")
+
+#         return render_template('user_dashboard.html', user=user, p=p, planDetails=planDetails,queryUsed=queryUsed,Data=Data, key=stripe_keys['publishable_key'], amount=amount)
+
+
+#     else:
+
+#         flash("Please Login First")
+#         return redirect(url_for('user_login'))
+
+#     return render_template('user_dashboard.html')
 
 
 @app.route('/report', methods=['GET', 'POST'])

@@ -1,0 +1,329 @@
+{% include 'user-nav.html' %}
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-md-12 grid-margin">
+                <div class="row">
+                  <div class="col-12 col-xl-6 mb-4 mb-xl-0">
+                    <h3 class="font-weight-bold">Welcome User</h3>
+                  </div>
+                  <div class="col-12 col-xl-6">
+                    <div class="justify-content-end d-flex">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="location.href = 'user-property.html';"
+                      >
+                        <i class="fa fa-window-restore" aria-hidden="true"></i>
+                        Create new data source
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="margin-left: 10px;"
+                        onclick="location.href = 'user-create-report.html';"
+                      >
+                        <i class="fa fa-file-text me-1" aria-hidden="true"></i>
+                        Create new report
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 grid-margin transparent">
+                <div class="row">
+                  <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-tale">
+                      <div class="card-body">
+                        <p class="mb-4">Report 1</p>
+                        <p class="fs-30 mb-2">4006</p>
+                        <p>10.00% (30 days)</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-dark-blue">
+                      <div class="card-body">
+                        <p class="mb-4">Report 2</p>
+                        <p class="fs-30 mb-2">61344</p>
+                        <p>22.00% (30 days)</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
+                    <div class="card card-light-blue">
+                      <div class="card-body">
+                        <p class="mb-4">Hotels Report</p>
+                        <p class="fs-30 mb-2">34040</p>
+                        <p>2.00% (30 days)</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 stretch-card transparent">
+                    <div class="card card-light-danger">
+                      <div class="card-body">
+                        <p class="mb-4">Groups Report</p>
+                        <p class="fs-30 mb-2">47033</p>
+                        <p>0.22% (30 days)</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div
+            class="row"
+            style="
+              background-color: transparent;
+              margin-right: 0px;
+              margin-left: 0px;
+            "
+          >
+            <div
+              class="col-md-12 grid-margin stretch-card"
+              style="background-color: transparent"
+            >
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-title mb-2">Recent Groups</p>
+                  <div class="table-responsive table-hover">
+                    <table class="table table-striped table-borderless" id="pager">
+                      <tbody>
+                        <tr>
+                          <td>Group 1</td>
+                          <td class="font-weight-medium text-right">
+                            <button
+                              data-toggle="modal"
+                              data-target="#viewGroupModal"
+                              class="btn btn-success fw-bold d-inline px-3 py-2 btn-view-modal"
+                            >
+                              Edit Group
+                            </button>
+                            <button
+                              class="btn btn-primary fw-bold d-inline px-3 py-2"
+                            >
+                              Delete Group
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Group 2</td>
+                          <td class="font-weight-medium text-right">
+                            <button
+                              data-toggle="modal"
+                              data-target="#viewGroupModal"
+                              class="btn btn-success fw-bold d-inline px-3 py-2 btn-view-modal"
+                            >
+                              Edit Group
+                            </button>
+                            <button
+                              class="btn btn-primary fw-bold d-inline px-3 py-2 btn-view-modal"
+                            >
+                              Delete Group
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Test Group</td>
+                          <td class="font-weight-medium text-right">
+                            <button
+                              data-toggle="modal"
+                              data-target="#viewGroupModal"
+                              class="btn btn-success fw-bold d-inline px-3 py-2 btn-view-modal"
+                            >
+                              Edit Group
+                            </button>
+                            <button
+                              class="btn btn-primary fw-bold d-inline px-3 py-2"
+                            >
+                              Delete Group
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Linda Hospitality Group Monitoring</td>
+                          <td class="font-weight-medium text-right">
+                            <button
+                              data-toggle="modal"
+                              data-target="#viewGroupModal"
+                              class="btn btn-success fw-bold d-inline px-3 py-2 btn-view-modal"
+                            >
+                              Edit Group
+                            </button>
+                            <button
+                              class="btn btn-primary fw-bold d-inline px-3 py-2"
+                            >
+                              Delete Group
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Linda Hospitality Group Monitoring 2</td>
+                          <td class="font-weight-medium text-right">
+                            <button
+                              data-toggle="modal"
+                              data-target="#viewGroupModal"
+                              class="btn btn-success fw-bold d-inline px-3 py-2 btn-view-modal"
+                            >
+                              Edit Group
+                            </button>
+                            <button
+                              class="btn btn-primary fw-bold d-inline px-3 py-2"
+                            >
+                              Delete Group
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center">
+              <span
+                class="text-gernal text-center text-sm-left d-block d-sm-inline-block"
+              >
+                Copyright © 2022. All rights reserved.
+                <a href="https://www.themewagon.com/" target="_blank">
+                  Sentimantle
+                </a>
+              </span>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="viewGroupModal"
+      tabindex="1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLongTitle">Edit Group</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-4" style="padding-top: 0px;">
+            <form>
+              <div class="form-group mb-2">
+                <label for="exampleInputEmail1 mb-0">Group Name<b class="text-primary">*</b></label>
+                <input type="email" class="form-control form-control-lg" id="groupName" placeholder="Group Name">
+              </div>
+              <div class="form-group mb-0 mt-3">
+                <label for="exampleInputEmail1">
+                  Add Hotels to Group
+                  <b class="text-primary">*</b>
+                </label>
+                <select
+                  id="choices-multiple-remove-button"
+                  class="form-select rounded-pill selectlang"
+                  placeholder="Add Hotels"
+                  multiple
+                >
+                  <option disabled>Select Hotes</option>
+                  <option value="af">30 Bencoolen</option>
+                  <option value="sq">38 Geylang Lorong 8</option>
+                  <option value="am">3D Harmony Backpackers Hostel</option>
+                  <option value="ar">5 footway.inn Projct Ann Siang</option>
+                  <option value="an">28 Dunlop</option>
+                  <option value="hy">39 Geylang Lorong 8</option>
+                  <option value="ast">40 Geylang Lorong 8</option>
+                  <option value="az">29 Geylang Lorong 8</option>
+                  <option value="eu">29 Geylang Lorong 8</option>
+                  <option value="be">11 Geylang Lorong 8</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer p-4">
+            <button
+              type="button"
+              class="btn btn-primary mr-0 fw-bold d-inline px-3 py-2"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-light fw-bold d-inline px-3 py-2"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+          var navbar_classes = "navbar-danger navbar-success navbar-warning navbar-dark navbar-light navbar-primary navbar-info navbar-pink";
+          var checkTheme = localStorage.getItem("themeColor");
+          if(checkTheme === 'dark-theme'){
+            document.body.classList.toggle("sidebar-dark");
+            document.body.classList.toggle("dark-theme");
+            document.getElementById("pager").classList.toggle("table-dark");
+          }
+          if(document.body.classList.contains("sidebar-dark")){
+            document.getElementById("sidebar-dark-theme").src = "static/images/sun.png";
+            $(".navbar").removeClass(navbar_classes);
+            $(".navbar").addClass("navbar-dark");
+            $(".tiles").removeClass("selected");
+            $(this).addClass("selected");
+            document.getElementById("logo1").src = "static/images/logo-white.png";
+          }
+          var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount: 10,
+            searchResultLimit: 10,
+            shouldSort: false,
+            renderChoiceLimit: 10
+          });
+        });
+        viewButton = document.querySelectorAll(".btn-view-modal");
+        for(let i=0; i <viewButton.length; i++){
+          viewButton[i].addEventListener('click', ()=>{
+            viewButton[i]
+              var oTable = document.getElementById('pager');
+              var oCells = oTable.rows.item(i).cells;
+              document.getElementById("groupName").value = oCells.item(0).innerHTML
+            });
+      }
+      </script>
+    <script src="static/vendors/js/vendor.bundle.base.js"></script>
+    <script src="static/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="static/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="static/js/dataTables.select.min.js"></script>
+    <script src="static/js/off-canvas.js"></script>
+    <script src="static/js/hoverable-collapse.js"></script>
+    <script src="static/js/template.js"></script>
+    <script src="static/js/settings.js"></script>
+    <script src="static/js/dashboard.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+    
+  </body>
+</html>

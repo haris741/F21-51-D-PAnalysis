@@ -1,0 +1,1855 @@
+{% include 'user-nav.html' %}
+
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <p class="card-title mb-3">Report Name: Report 1</p>
+                    <form class="forms-sample">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="tab custom-tab">
+                            <a
+                              class="tablinks"
+                              onclick="openReports(event, 'meter')"
+                              id="defaultOpen"
+                            >
+                              Meter
+                            </a>
+                            <a
+                              class="tablinks"
+                              onclick="openReports(event, 'timeline')"
+                            >
+                              Timeline
+                            </a>
+                            <a
+                              class="tablinks"
+                              onclick="openReports(event, 'analysis')"
+                            >
+                              Aspect Analysis
+                            </a>
+                            <a
+                              class="tablinks"
+                              onclick="openReports(event, 'positions')"
+                            >
+                              Aspect Positions
+                            </a>
+                            <a
+                              class="tablinks"
+                              onclick="openReports(event, 'correlations')"
+                            >
+                              Aspect Correlations
+                            </a>
+                            <a
+                              class="tablinks"
+                              onclick="openReports(event, 'cloudWords')"
+                            >
+                              Cloud of Words
+                            </a>
+                            <a
+                              class="tablinks"
+                              onclick="openReports(event, 'map')"
+                            >
+                              Map
+                            </a>
+                          </div>
+                          <div id="meter" class="tabcontent">
+                            <div
+                              class="meter-section-1"
+                              style="
+                                display: flex;
+                                justify-content: center;
+                                flex-wrap: wrap;
+                              "
+                            >
+                              <div class="mt-4">
+                                <canvas id="myChart"></canvas>
+                                <h3 class="text-center mt-4">Cleanless</h3>
+                              </div>
+                              <div class="mt-4">
+                                <canvas id="myChart2"></canvas>
+                                <h3 class="text-center mt-4">Location</h3>
+                              </div>
+                              <div class="mt-4">
+                                <canvas id="myChart3"></canvas>
+                                <h3 class="text-center mt-4">Rooms</h3>
+                              </div>
+                            </div>
+
+                            <div
+                              class="mt-5 meter-section-2"
+                              style="
+                                display: flex;
+                                justify-content: center;
+                                flex-wrap: wrap;
+                              "
+                            >
+                              <div class="mt-4">
+                                <canvas id="myChart4"></canvas>
+                                <h3 class="text-center mt-4">Service</h3>
+                              </div>
+                              <div class="mt-4">
+                                <canvas id="myChart5"></canvas>
+                                <h3 class="text-center mt-4">Sleep quality</h3>
+                              </div>
+                              <div class="mt-4">
+                                <canvas id="myChart6"></canvas>
+                                <h3 class="text-center mt-4">Value</h3>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="timeline" class="tabcontent row">
+                            <div class="mt-4 mb-4">
+                              <div class="container">
+                                <div class="row">
+                                  <label
+                                    for="selectOption"
+                                    class="form-label ms-0 ps-0 fw-bold text-dark"
+                                  >
+                                    Select Aspects:
+                                  </label>
+                                  <div class="form-group mb-0 p-0">
+                                    <select
+                                      id="choices-multiple-remove-button"
+                                      class="form-select rounded-pill selectlang py-4"
+                                      placeholder="Select aspects"
+                                      multiple
+                                      style="background-color: #fdf5f5"
+                                    >
+                                      <option disabled>Select Groups</option>
+                                      <option value="af">30 Bencoolen</option>
+                                      <option value="sq">10min</option>
+                                      <option value="am">24h</option>
+                                      <option value="ar">5min</option>
+                                      <option value="an">28 Dunlop</option>
+                                      <option value="hy">access</option>
+                                      <option value="ast">accommodation</option>
+                                      <option value="az">adapter</option>
+                                      <option value="eu">advance</option>
+                                      <option value="be">airport</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row justify-content-around">
+                                <div class="col-md-5 mt-3">
+                                  <h3 class="my-4">Aspect Timeline:</h3>
+                                  <canvas
+                                    id="AspectsTimeline"
+                                    width="700"
+                                    height="350"
+                                  ></canvas>
+                                </div>
+                                <div class="col-md-5 mt-3">
+                                  <h3 class="my-4 mb-5">Sentiment Timeline:</h3>
+                                  <canvas id="LineChart"></canvas>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="analysis" class="tabcontent">
+                            <div class="container">
+                              <input
+                                type="text"
+                                id="AnalysisSearch"
+                                onkeyup="analysisSearch()"
+                                placeholder="Search..."
+                                class="p-2 mt-3"
+                                style="border: 1px solid"
+                              />
+                            </div>
+
+                            <div class="d-flex">
+                              <div
+                                class="my-4"
+                                style="
+                                  height: 500px;
+                                  overflow: auto;
+                                  width: 100%;
+                                "
+                              >
+                                <ul
+                                  id="analysisUl"
+                                  class="d-flex flex-column"
+                                  style="
+                                    list-style: none;
+                                    width: 100%;
+                                    align-items: center;
+                                  "
+                                >
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Hotels
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Pool
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Bedroom
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Staff
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Location
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Bathroom
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Shower
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Price
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Garden
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li
+                                    class="col-md-10 my-2 aspect-progress-bar p-2"
+                                    onclick="ReviewModal(true)"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <a
+                                        href="#"
+                                        class="mr-3 text-right pr-1"
+                                        style="
+                                          width: 8%;
+                                          border-right: 2px solid
+                                            rgb(109, 109, 109);
+                                          text-decoration: none;
+                                          color: black;
+                                        "
+                                      >
+                                        Food
+                                      </a>
+                                      <div class="progress" style="width: 90%">
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 15%;
+                                            background-color: #c21a1a;
+                                          "
+                                          aria-valuenow="15"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          15%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 60%;
+                                            background-color: #f9a503;
+                                          "
+                                          aria-valuenow="30"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          65%
+                                        </div>
+                                        <div
+                                          class="progress-bar"
+                                          role="progressbar"
+                                          style="
+                                            width: 25%;
+                                            background-color: #4de600;
+                                          "
+                                          aria-valuenow="20"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          20%
+                                        </div>
+                                      </div>
+                                      <div class="ml-3" style="width: 10%">
+                                        29 Reviews
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div class="my-4 ml-2" style="height: 500px">
+                                <div id="review-modal" style="display: none">
+                                  <div
+                                    class="modal-content"
+                                    style="height: 500px"
+                                  >
+                                    <div class="modal-header">
+                                      <h4
+                                        class="modal-title"
+                                        id="exampleModalLongTitle"
+                                      >
+                                        Reviews
+                                      </h4>
+                                      <button
+                                        type="button"
+                                        class="close"
+                                        onclick="ReviewModal(false)"
+                                      >
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div
+                                      class="modal-body p-4"
+                                      style="padding-top: 0px; overflow: auto"
+                                    >
+                                      <ul
+                                        style="
+                                          list-style: decimal;
+                                          height: 500px;
+                                        "
+                                      >
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #f8eded;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              Worst hostel experidasdasdsaence!
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #c21a1a;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #faf7e4;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              The most outstanding thing and
+                                              what makes the stay at this hostel
+                                              worthwhile is the service.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #f9a503;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #e1ffdb;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              PS: This type of hostel is not for
+                                              those who are claustrophobic.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #4de600;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #f8eded;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              Worst hostel experidasdasdsaence!
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #c21a1a;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #faf7e4;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              The most outstanding thing and
+                                              what makes the stay at this hostel
+                                              worthwhile is the service.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #f9a503;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #e1ffdb;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              PS: This type of hostel is not for
+                                              those who are claustrophobic.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #4de600;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #f8eded;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              Worst hostel experidasdasdsaence!
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #c21a1a;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #faf7e4;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              The most outstanding thing and
+                                              what makes the stay at this hostel
+                                              worthwhile is the service.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #f9a503;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #e1ffdb;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              PS: This type of hostel is not for
+                                              those who are claustrophobic.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #4de600;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="positions" class="tabcontent">
+                            <div
+                              style="display: flex; justify-content: center"
+                              class="mb-4"
+                            >
+                              <div class="col-md-9 mt-4">
+                                <canvas
+                                  id="bar-chart-grouped"
+                                  width="800"
+                                  height="450"
+                                ></canvas>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="correlations" class="tabcontent">
+                            <div
+                              style="display: flex; justify-content: center"
+                              class="mb-4"
+                            >
+                              <div class="col-md-10">
+                                <div class="table-responsive mb-3 mb-md-0 mt-3">
+                                  <table
+                                    class="table table-borderless report-table"
+                                  >
+                                    <tr>
+                                      <td class="text-muted">Illinois</td>
+                                      <td class="w-100 px-0">
+                                        <div class="progress progress-md mx-4">
+                                          <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="
+                                              width: 70%;
+                                              background-color: #4de600;
+                                            "
+                                            aria-valuenow="70"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                          ></div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <h5 class="font-weight-bold mb-0">
+                                          713
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="text-muted">Washington</td>
+                                      <td class="w-100 px-0">
+                                        <div class="progress progress-md mx-4">
+                                          <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="
+                                              width: 30%;
+                                              background-color: #c21a1a;
+                                            "
+                                            aria-valuenow="30"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                          ></div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <h5 class="font-weight-bold mb-0">
+                                          583
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="text-muted">Mississippi</td>
+                                      <td class="w-100 px-0">
+                                        <div class="progress progress-md mx-4">
+                                          <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="
+                                              width: 95%;
+                                              background-color: #c21a1a;
+                                            "
+                                            aria-valuenow="95"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                          ></div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <h5 class="font-weight-bold mb-0">
+                                          924
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="text-muted">California</td>
+                                      <td class="w-100 px-0">
+                                        <div class="progress progress-md mx-4">
+                                          <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="
+                                              width: 60%;
+                                              background-color: #4de600;
+                                            "
+                                            aria-valuenow="60"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                          ></div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <h5 class="font-weight-bold mb-0">
+                                          664
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="text-muted">Maryland</td>
+                                      <td class="w-100 px-0">
+                                        <div class="progress progress-md mx-4">
+                                          <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="
+                                              width: 40%;
+                                              background-color: #c21a1a;
+                                            "
+                                            aria-valuenow="40"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                          ></div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <h5 class="font-weight-bold mb-0">
+                                          560
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="text-muted">Alaska</td>
+                                      <td class="w-100 px-0">
+                                        <div class="progress progress-md mx-4">
+                                          <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="
+                                              width: 75%;
+                                              background-color: #4de600;
+                                            "
+                                            aria-valuenow="75"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                          ></div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <h5 class="font-weight-bold mb-0">
+                                          793
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="cloudWords" class="tabcontent">
+                            <div
+                              style="display: flex; justify-content: center"
+                            >
+                              <div class="col-md-8 mt-4">
+                                <div
+                                  class="form-group"
+                                  style="display: flex; justify-content: center"
+                                >
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input
+                                        type="radio"
+                                        class="form-check-input"
+                                        name="optionsRadios"
+                                        id="optionsRadios1"
+                                        value=""
+                                      />
+                                      Cloud of words - Frequency
+                                    </label>
+                                  </div>
+                                  <div
+                                    class="form-check ms-4"
+                                    style="margin-left: 4%"
+                                  >
+                                    <label class="form-check-label">
+                                      <input
+                                        type="radio"
+                                        class="form-check-input"
+                                        name="optionsRadios"
+                                        id="optionsRadios2"
+                                        value="option2"
+                                        checked
+                                      />
+                                      Cloud of words - Sentiment
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12" style="display: flex; justify-content: center; margin-top: -2.5%;">
+                              <div id='main'></div>
+                            </div>
+                          </div>
+
+                          <div id="map" class="tabcontent">
+                            <div
+                              style="display: flex; justify-content: center"
+                              class="mb-4"
+                            >
+                              <div class="col-md-12 mt-4">
+                                <div id="googleMap"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center">
+              <span
+                class="text-gernal text-center text-sm-left d-block d-sm-inline-block"
+              >
+                Copyright © 2022. All rights reserved.
+                <a href="https://www.themewagon.com/" target="_blank">
+                  Sentimantle
+                </a>
+              </span>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="viewGroupModal"
+      tabindex="1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLongTitle">Edit Group</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-4 pt-0">
+            <form class="pt-3">
+              <div class="form-group mb-2">
+                <label for="exampleInputEmail1">
+                  Group Name
+                  <b class="text-primary">*</b>
+                </label>
+                <input
+                  type="email"
+                  class="form-control form-control-lg"
+                  placeholder="Group Name"
+                />
+              </div>
+              <div class="form-group mb-2 mt-2">
+                <label for="exampleInputEmail1">
+                  Confirm Email
+                  <b class="text-primary">*</b>
+                </label>
+                <input
+                  type="email"
+                  class="form-control form-control-lg"
+                  id="exampleInputEmail1"
+                  placeholder="Confirm Email"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer p-4">
+            <button
+              type="button"
+              class="btn btn-primary mr-0"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-light">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
+    <script src="vendors/js/vendor.bundle.base.js"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="js/dataTables.select.min.js"></script>
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="vendors/chart.js/Chart.min.js"></script>
+    <script src="js/Chart.roundedBarCharts.js"></script>
+    <script src="js/cloud-of-words.js"></script>
+
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD19cqU2rIzBHOPL_t8GhJJ9cmi-HNpULg&callback=initialize"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function openReports(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+      document.getElementById("defaultOpen").click();
+      //google map
+      function initialize() {
+        var mapOptions = {
+          zoom: 15,
+          scrollwheel: false,
+          center: new google.maps.LatLng(31.993072, 35.862211),
+        };
+
+        var map = new google.maps.Map(
+          document.getElementById("googleMap"),
+          mapOptions
+        );
+
+        var marker = new google.maps.Marker({
+          position: map.getCenter(),
+          animation: google.maps.Animation.BOUNCE,
+          map: map,
+        });
+      }
+    </script>
+    <script>
+      Chart.defaults.doughnutLabels = Chart.helpers.clone(
+        Chart.defaults.doughnut
+      );
+
+      var helpers = Chart.helpers;
+      var defaults = Chart.defaults;
+
+      Chart.controllers.doughnutLabels = Chart.controllers.doughnut.extend({
+        updateElement: function (arc, index, reset) {
+          var _this = this;
+          var chart = _this.chart,
+            chartArea = chart.chartArea,
+            opts = chart.options,
+            animationOpts = opts.animation,
+            arcOpts = opts.elements.arc,
+            centerX = (chartArea.left + chartArea.right) / 2,
+            centerY = (chartArea.top + chartArea.bottom) / 2,
+            startAngle = opts.rotation, // non reset case handled later
+            endAngle = opts.rotation, // non reset case handled later
+            dataset = _this.getDataset(),
+            circumference =
+              reset && animationOpts.animateRotate
+                ? 0
+                : arc.hidden
+                ? 0
+                : _this.calculateCircumference(dataset.data[index]) *
+                  (opts.circumference / (2.0 * Math.PI)),
+            innerRadius =
+              reset && animationOpts.animateScale ? 0 : _this.innerRadius,
+            outerRadius =
+              reset && animationOpts.animateScale ? 0 : _this.outerRadius,
+            custom = arc.custom || {},
+            valueAtIndexOrDefault = helpers.getValueAtIndexOrDefault;
+
+          helpers.extend(arc, {
+            // Utility
+            _datasetIndex: _this.index,
+            _index: index,
+
+            // Desired view properties
+            _model: {
+              x: centerX + chart.offsetX,
+              y: centerY + chart.offsetY,
+              startAngle: startAngle,
+              endAngle: endAngle,
+              circumference: circumference,
+              outerRadius: outerRadius,
+              innerRadius: innerRadius,
+              label: valueAtIndexOrDefault(
+                dataset.label,
+                index,
+                chart.data.labels[index]
+              ),
+            },
+
+            draw: function () {
+              var ctx = this._chart.ctx,
+                vm = this._view,
+                sA = vm.startAngle,
+                eA = vm.endAngle,
+                opts = this._chart.config.options;
+
+              var labelPos = this.tooltipPosition();
+              var segmentLabel = (vm.circumference / opts.circumference) * 100;
+
+              ctx.beginPath();
+
+              ctx.arc(vm.x, vm.y, vm.outerRadius, sA, eA);
+              ctx.arc(vm.x, vm.y, vm.innerRadius, eA, sA, true);
+
+              ctx.closePath();
+              ctx.strokeStyle = vm.borderColor;
+              ctx.lineWidth = vm.borderWidth;
+
+              ctx.fillStyle = vm.backgroundColor;
+
+              ctx.fill();
+              ctx.lineJoin = "bevel";
+
+              if (vm.borderWidth) {
+                ctx.stroke();
+              }
+
+              if (vm.circumference > 0.0015) {
+                // Trying to hide label when it doesn't fit in segment
+                ctx.beginPath();
+                ctx.font = helpers.fontString(
+                  opts.defaultFontSize,
+                  opts.defaultFontStyle,
+                  opts.defaultFontFamily
+                );
+                ctx.fillStyle = "#190707";
+                ctx.textBaseline = "top";
+                ctx.textAlign = "center";
+
+                // Round percentage in a way that it always adds up to 100%
+                ctx.fillText(
+                  segmentLabel.toFixed(2) + "%",
+                  labelPos.x,
+                  labelPos.y
+                );
+
+                //display in the center the total sum of all segments
+                var total = dataset.data.reduce((sum, val) => sum + val, 0);
+                ctx.fillText("Total = " + total, vm.x, vm.y - 20, 200);
+              }
+            },
+          });
+
+          var model = arc._model;
+          model.backgroundColor = custom.backgroundColor
+            ? custom.backgroundColor
+            : valueAtIndexOrDefault(
+                dataset.backgroundColor,
+                index,
+                arcOpts.backgroundColor
+              );
+          model.hoverBackgroundColor = custom.hoverBackgroundColor
+            ? custom.hoverBackgroundColor
+            : valueAtIndexOrDefault(
+                dataset.hoverBackgroundColor,
+                index,
+                arcOpts.hoverBackgroundColor
+              );
+          model.borderWidth = custom.borderWidth
+            ? custom.borderWidth
+            : valueAtIndexOrDefault(
+                dataset.borderWidth,
+                index,
+                arcOpts.borderWidth
+              );
+          model.borderColor = custom.borderColor
+            ? custom.borderColor
+            : valueAtIndexOrDefault(
+                dataset.borderColor,
+                index,
+                arcOpts.borderColor
+              );
+
+          // Set correct angles if not resetting
+          if (!reset || !animationOpts.animateRotate) {
+            if (index === 0) {
+              model.startAngle = opts.rotation;
+            } else {
+              model.startAngle =
+                _this.getMeta().data[index - 1]._model.endAngle;
+            }
+
+            model.endAngle = model.startAngle + model.circumference;
+          }
+
+          arc.pivot();
+        },
+      });
+
+      var config = {
+        type: "doughnutLabels",
+        data: {
+          datasets: [
+            {
+              data: [54, 11],
+              backgroundColor: ["#4DE600", "#C21A1A"],
+              label: "Dataset 1",
+            },
+          ],
+          labels: ["Data 1 = 54", "Data 2 = 11"],
+        },
+        options: {
+          circumference: Math.PI,
+          rotation: 1.0 * Math.PI,
+          responsive: true,
+          legend: { position: "top" },
+          title: { display: true },
+          animation: { animateScale: true, animateRotate: true },
+        },
+      };
+
+      var ctx = document.getElementById("myChart").getContext("2d");
+      var ctx2 = document.getElementById("myChart2").getContext("2d");
+      var ctx3 = document.getElementById("myChart3").getContext("2d");
+      var ctx4 = document.getElementById("myChart4").getContext("2d");
+      var ctx5 = document.getElementById("myChart5").getContext("2d");
+      var ctx6 = document.getElementById("myChart6").getContext("2d");
+      new Chart(ctx, config);
+      new Chart(ctx2, config);
+      new Chart(ctx3, config);
+      new Chart(ctx4, config);
+      new Chart(ctx5, config);
+      new Chart(ctx6, config);
+    </script>
+
+    <script>
+      new Chart(document.getElementById("bar-chart-grouped"), {
+        type: "horizontalBar",
+        data: {
+          labels: ["View", "Breakfast", "Pool", "Bed", "Shower"],
+          datasets: [
+            {
+              label: "Positive",
+              backgroundColor: "#4DE600",
+              data: [133, 221, 783, 2478, 2478],
+            },
+            {
+              label: "Negative",
+              backgroundColor: "#C21A1A",
+              data: [408, 547, 675, 734, 734],
+            },
+          ],
+        },
+        options: {},
+      });
+    </script>
+
+    <script>
+      new Chart(document.getElementById("AspectsTimeline"), {
+        type: "bar",
+        data: {
+          labels: ["10/17", "12/17", "02/18", "04/18", "06/18"],
+          datasets: [
+            {
+              label: "Positive",
+              backgroundColor: "#4DE600",
+              data: [133, 221, 783, 2478, 2478],
+            },
+            {
+              label: "Negative",
+              backgroundColor: "#C21A1A",
+              data: [408, 547, 675, 734, 734],
+            },
+          ],
+        },
+        options: {},
+      });
+    </script>
+
+    <script>
+      var xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+      var yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+
+      new Chart("LineChart", {
+        type: "line",
+        data: {
+          labels: xValues,
+          datasets: [
+            {
+              fill: false,
+              lineTension: 0,
+              backgroundColor: "rgba(0,0,255,1.0)",
+              borderColor: "rgba(0,0,255,0.1)",
+              data: yValues,
+            },
+          ],
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+            yAxes: [{ ticks: { min: 6, max: 16 } }],
+          },
+        },
+      });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+  
+    <script>
+      $(document).ready(function () {
+        var multipleCancelButton = new Choices(
+          "#choices-multiple-remove-button",
+          {
+            removeItemButton: true,
+            maxItemCount: 10,
+            searchResultLimit: 10,
+            renderChoiceLimit: 10,
+          }
+        );
+      });
+    </script>
+
+    <script>
+      function analysisSearch() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("AnalysisSearch");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("analysisUl");
+        li = ul.getElementsByTagName("li");
+        console.log(li.length, " <-------------");
+        for (i = 0; i < li.length; i++) {
+          a = li[i].getElementsByTagName("a")[0];
+          txtValue = a.textContent || a.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+          } else {
+            li[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+
+    <script>
+      function ReviewModal(check) {
+        if (check === false)
+          document.getElementById("review-modal").style.display = "none";
+        if (check === true)
+          document.getElementById("review-modal").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
