@@ -92,6 +92,10 @@ def user_view_report():
 def admin_dashboard():
     return render_template("admin-dashboard.html")
 
+@app.route("/admin_manage_users")
+def admin_manage_users():
+    return render_template("admin-users.html")
+
 @app.route("/uploads/<path>",methods = ['POST', 'GET'])
 def DownloadLogFile (path = None):
         path=os.path.abspath(rootPath+path)
