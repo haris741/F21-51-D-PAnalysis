@@ -6,7 +6,9 @@ from datetime import datetime
 import numpy as np
 import re
 import re
-stopwords = ["for", "on", "an", "a", "of", "and", "in", "the", "to", "from", "is"]
+import nltk
+from nltk.corpus import stopwords
+nltk.download('stopwords')
 def remove_emoji(string):
     emoji_pattern = re.compile("["
                            u"\U0001F600-\U0001F64F"  # emoticons
@@ -55,7 +57,7 @@ class Scraper():
         temp = re.sub('\[.*?\]',' ', temp)
         temp = re.sub("[^a-z0-9]"," ", temp)
         temp = temp.split()
-        temp = [w for w in temp if not w in stopwords]
+        temp = [w for w in temp if not w in stopwords.words()]
         temp = " ".join(word for word in temp)
         return temp
     def populateUserTweets(self, noOfTweets, db):
@@ -72,7 +74,8 @@ class Scraper():
         tweets_df1 = pd.DataFrame(tweets_list1, columns=['Datetime', 'Tweet Id', 'Text', 'Username'])
         for index, i in tweets_df1.iterrows():
             date_time_obj = datetime.strptime(str(i['Datetime'])[:19], '%Y-%m-%d %H:%M:%S')
-            db.execute("INSERT INTO `tweets` (`id`, `tweetID`, `content`, `tweetTS`, `username`, `cleaned_content`) VALUES (NULL, %s, %s, %s, %s, %s)",(i['Tweet Id'], i['Text'].encode('ascii', 'ignore'), date_time_obj, i['Username'], self.clean_tweet(i['Text'])))
+            if len(self.clean_tweet(i['Text'])) > 0:
+                db.execute("INSERT INTO `tweets` (`id`, `tweetID`, `content`, `tweetTS`, `username`, `cleaned_content`) VALUES (NULL, %s, %s, %s, %s, %s)",(i['Tweet Id'], i['Text'].encode('ascii', 'ignore'), date_time_obj, i['Username'], self.clean_tweet(i['Text'])))
             # db.setTweets(i['Tweet Id'], i['Text'].encode('ascii', 'ignore'), date_time_obj, i['Username'])
         db.execute("update query set status=1 where status=0 and keyword=%s;", [self.userName])
         print("All Tweets Added to DB")

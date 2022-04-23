@@ -18,8 +18,8 @@ class Model:
         for model_name in self.models:
             model=joblib.load(model_name)
             number = preprocessing.LabelEncoder()
-            data['content'] = number.fit_transform(data.content)
-            prediction.append( model.predict(data['content'].values.reshape(-1, 1), ))
+            data['cleaned_content'] = number.fit_transform(data.content)
+            prediction.append( model.predict(data['cleaned_content'].values.reshape(-1, 1), ))
             del model
             K.clear_session()
             _=gc.collect()

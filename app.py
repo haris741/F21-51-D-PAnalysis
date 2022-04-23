@@ -653,13 +653,13 @@ def user_logout():
 #model_prediction
 def predict(dataset, username):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("SELECT tweets_prediction.*, tweets.content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
+    cursor.execute("SELECT tweets_prediction.*, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
     data= cursor.fetchall()
     df= pd.DataFrame(data)
 
     #getting top 10 words
-    tweets= df['content'].values.reshape(-1, 1)
-    count_10 = Counter(" ".join(df["content"]).split()).most_common(10)
+    tweets= df['cleaned_content'].values.reshape(-1, 1)
+    count_10 = Counter(" ".join(df["cleaned_content"]).split()).most_common(10)
 
     output1= df
     if(dataset=="humour"):
@@ -775,14 +775,14 @@ def showreport():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("select * from users_profile WHERE username=%s", [username])
     user_profile= cursor.fetchone()
-    cursor.execute("SELECT count(content), MONTH(tweetTS) FROM tweets WHERE UPPER(content) LIKE UPPER('%% Spacex %%') GROUP BY MONTH(tweetTS)")
+    cursor.execute("SELECT count(cleaned_content), MONTH(tweetTS) FROM tweets WHERE UPPER(cleaned_content) LIKE UPPER('%% Spacex %%') GROUP BY MONTH(tweetTS)")
     dates= cursor.fetchall()
 
-    cursor.execute("SELECT tweets_prediction.*, tweets.content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
+    cursor.execute("SELECT tweets_prediction.*, tweets.content, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
     tweets_based_prediction = cursor.fetchall()
 
     df = pd.DataFrame(tweets_based_prediction)
-    count = Counter(" ".join(df["content"]).split()).most_common(10)
+    count = Counter(" ".join(df["cleaned_content"]).split()).most_common(10)
     df['humour'].value_counts()
     a=[df['humour'].value_counts(), df['hatespeech_offensive'].value_counts(), df['negative_positive_neutral'].value_counts()]
     
