@@ -778,6 +778,43 @@ def showreport():
     cursor.execute("SELECT count(cleaned_content), MONTH(tweetTS) FROM tweets WHERE UPPER(cleaned_content) LIKE UPPER('%% Spacex %%') GROUP BY MONTH(tweetTS)")
     dates= cursor.fetchall()
 
+
+    # for meters
+
+    cursor.execute('''
+        SELECT
+(select count(*) from tweets_prediction where humour = 'Funny' and negative_positive_neutral = 'Negative') as fn,
+
+(select count(*) from tweets_prediction where humour = 'Funny' and negative_positive_neutral = 'Positive') as fp,
+(select count(*) from tweets_prediction where hatespeech_offensive = 'Offensive' and negative_positive_neutral = 'Positive') as op,
+(select count(*) from tweets_prediction where hatespeech_offensive = 'Offensive' and negative_positive_neutral = 'Negative') as `on`,
+(SELECT count(*) from tweets_prediction where hatespeech_offensive = 'Hate Speech' and negative_positive_neutral = 'Positive') as `hp`,
+(SELECT count(*) from tweets_prediction where hatespeech_offensive = 'Hate Speech' and negative_positive_neutral = 'Negative'
+ ) as `hn`
+    
+    
+     ''')
+
+    meters = cursor.fetchone()
+
+
+    # for aspect analysis
+    cursor.execute(''' 
+        SELECT 
+    (SELECT COUNT(*) from tweets_prediction where negative_positive_neutral = 'Negative') as negative,
+    (select count(*) from tweets_prediction where negative_positive_neutral = 'Positive') as positive,
+     (select count(*) from tweets_prediction where negative_positive_neutral = 'Neutral') as neutral, 
+    (SELECT count(*) from tweets_prediction where hatespeech_offensive = 'Hate Speech') as hatespeech,
+    (select count(*) from tweets_prediction where hatespeech_offensive = 'Offensive') as offensive,
+     (select count(*) from tweets_prediction where hatespeech_offensive = 'Neutral') as honeutral, 
+    (SELECT count(*) from tweets_prediction where humour = 'Funny' ) as funny,
+    (select count(*) from tweets_prediction where humour = 'Neutral') as fneutral
+  
+    ''')
+
+    aspectAnalysis = cursor.fetchone()
+
+
     cursor.execute("SELECT tweets_prediction.*, tweets.content, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
     tweets_based_prediction = cursor.fetchall()
 
@@ -791,8 +828,18 @@ def showreport():
     data= pd.concat(a)
     data= data.to_dict()
     del a    
+    print(data)
+
+
     
-    return render_template('report.html', humour_data=data, user_profile=user_profile, tweets_based_prediction = tweets_based_prediction, count= count,dates= dates)
+    return render_template('report.html',
+     humour_data=data,
+     user_profile=user_profile,
+     meters= meters,
+     aspectAnalysis = aspectAnalysis,
+     tweets_based_prediction = tweets_based_prediction,
+     count= count,
+     dates= dates)
 
 
 # faqs page

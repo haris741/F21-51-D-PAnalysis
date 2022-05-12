@@ -85,6 +85,58 @@
         width: 100%;
       }
     </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+			{% for key, value in humour_data.items() %}
+				{% if value is string %}
+					['{{ key }}', '{{ value }}'],
+				{% else %}
+					['{{ key }}', {{ value }}],
+				{% endif %}
+			{% endfor %}
+        ]);
+
+        var options = {
+          title: 'Report: ',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('humour_chart'));
+        chart.draw(data, options);
+        
+      }
+    </script>
+     <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Month', 'Tweets'],
+			{% for row in dates %}
+				{% if row.0 is string %}
+					['{{row.1 }}', '{{ row.0 }}'],
+				{% else %}
+					['{{ row.1 }}', {{ row.0 }}],
+				{% endif %}
+			{% endfor %}
+        ]);
+
+        var options = {
+          title: 'Keyword Analysis ',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('date_keyword_graph'));
+        chart.draw(data, options);
+        
+      }
+    </script>
   </head>
   <body>
     <div class="container-scroller">
@@ -102,7 +154,7 @@
                     <div class="row mt-4">
                       <div class="col-6">
                         <p class="card-title ms-4 mt-2">
-                          Report Name: {{report_name}}
+                          Report Name: 
                         </p>
                       </div>
                       <div class="col-6">
@@ -148,8 +200,7 @@
                           <div class="tab custom-tab">
                             <a
                               class="tablinks"
-                              onclick="openReports(event, 'meter')"
-                              id="defaultOpen"
+                              onclick="openReports(event, 'profileData')"
                             >
                               Profile Data
                             </a>
@@ -157,19 +208,21 @@
                               class="tablinks"
                               onclick="openReports(event, 'meter')"
                               id="defaultOpen"
-                            >
-                              Overall Analysis
-                            </a>
-                            <a
-                              class="tablinks"
-                              onclick="openReports(event, 'meter')"
-                              id="defaultOpen"
+
                             >
                               Meter
                             </a>
                             <a
                               class="tablinks"
+                              onclick="openReports(event, 'overAllAnalysis')"
+
+                            >
+                              Overall Analysis
+                            </a>
+                            <a
+                              class="tablinks"
                               onclick="openReports(event, 'timeline')"
+
                             >
                               Timeline
                             </a>
@@ -188,6 +241,51 @@
                               Cloud of Words
                             </a>
                             
+                          </div>
+                          <div id="profileData" class="tabcontent">
+                            <div class="container mt-3 mb-3">
+                              <div class="d-flex flex-row align-items-center"></div>
+                              <div class=" align-items-center" style="width: max-content;margin: auto;" >
+                                  <h4>Account Details</h4>
+                              </div>
+                              <div class="row mt-1 g-4">
+                                <div class="col-md-4">
+                                  <div class="card p-2">
+                                      <div class="d-flex p-1 px-4 align-items-center"></div>
+                                      <div class="email mt-1"> <H5 class=" align-items-center" style="
+                                          width: max-content;
+                                          margin: auto;
+                                      " >Profile Picture</<H4>
+                                          <div class="dummytext mt-1"> <span></span> </div>
+                                      </div>
+                                      <img src={{user_profile.profileImage}}>
+                                  </div>
+                              </div>
+                                  <div class="col-md-4">
+                                      <div class="card p-2">
+                                          <div class="d-flex p-1 px-4 align-items-center"></div>
+                                          <div class="email mt-1"> <H5 class=" align-items-center" style="
+                                              width: max-content;
+                                              margin: auto;
+                                          " >USER INFORMATION</<H4>
+                                              <div class="dummytext mt-1"> <span></span> </div>
+                                          </div>
+                            
+                                          <ul class="list-group list-group-flush">
+                                              <li class="list-group-item"><b>Username:</b> {{user_profile.username}}</li>
+                                              <li class="list-group-item"><b>Name:</b>{{user_profile.name}}</li>
+                                              <li class="list-group-item"><b>Description:</b> {{user_profile.description}}</li>
+                                              <li class="list-group-item"><b>Location:</b> {{user_profile.location}}</li>
+                                              <li class="list-group-item"><b>Followers Count:</b> {{user_profile.followersCount}}</li>
+                                              <li class="list-group-item"><b>Verified:</b> {{user_profile.isVerified}}</li>
+                                              </li>
+                            
+                                          </ul>
+                                          </div>
+                                  </div>
+                                 
+                              </div>
+                            </div>
                           </div>
                           <div id="meter" class="tabcontent">
                             <div
@@ -221,6 +319,16 @@
                               "
                             >
                              
+                            </div>
+                          </div>
+                          <div id="overAllAnalysis" class="tabcontent">
+                            <div style="margin: 10px 0 0 10px;width: 1000px;">
+                              
+                          
+                              
+                              <div id="humour_chart" ></div>
+                                  
+                          
                             </div>
                           </div>
 
@@ -276,7 +384,7 @@
                                 >
                                   <li
                                     class="col-md-10 my-2 aspect-progress-bar p-2"
-                                    onclick="ReviewModal(true)"
+                                    onclick="SentimentModal(true)"
                                   >
                                     <div class="d-flex align-items-center">
                                       <a
@@ -297,51 +405,51 @@
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 15%;
+                                            width: {{(aspectAnalysis.negative/(aspectAnalysis.positive + aspectAnalysis.negative + aspectAnalysis.neutral)*100.0)}}%;
                                             background-color: #c21a1a;
                                           "
                                           aria-valuenow="15"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          15%
+                                        {{(aspectAnalysis.negative/(aspectAnalysis.positive + aspectAnalysis.negative + aspectAnalysis.neutral)*100.0) | round}}%
                                         </div>
                                         <div
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 60%;
+                                            width: {{(aspectAnalysis.neutral/(aspectAnalysis.positive + aspectAnalysis.negative + aspectAnalysis.neutral)*100.0)}}%;
                                             background-color: #f9a503;
                                           "
                                           aria-valuenow="30"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          65%
+                                        {{(aspectAnalysis.neutral/(aspectAnalysis.positive + aspectAnalysis.negative + aspectAnalysis.neutral)*100.0) | round}}%
                                         </div>
                                         <div
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 25%;
+                                            width: {{(aspectAnalysis.positive/(aspectAnalysis.positive + aspectAnalysis.negative + aspectAnalysis.neutral)*100.0)}}%;
                                             background-color: #4de600;
                                           "
                                           aria-valuenow="20"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          20%
+                                        {{(aspectAnalysis.positive/(aspectAnalysis.positive + aspectAnalysis.negative + aspectAnalysis.neutral)*100.0) | round}}
                                         </div>
                                       </div>
                                       <div class="ml-3" style="width: 10%">
-                                        29 Tweets
+                                        {{aspectAnalysis.positive + aspectAnalysis.negative + aspectAnalysis.neutral}} Tweets
                                       </div>
                                     </div>
                                   </li>
 
                                   <li
                                     class="col-md-10 my-2 aspect-progress-bar p-2"
-                                    onclick="ReviewModal(true)"
+                                    onclick="HumourModal(true)"
                                   >
                                     <div class="d-flex align-items-center">
                                       <a
@@ -358,55 +466,43 @@
                                         Humour
                                       </a>
                                       <div class="progress" style="width: 90%">
+                                        
                                         <div
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 15%;
-                                            background-color: #c21a1a;
-                                          "
-                                          aria-valuenow="15"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          15%
-                                        </div>
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 60%;
+                                            width:{{(aspectAnalysis.fneutral/(aspectAnalysis.funny + aspectAnalysis.fneutral)*100.0) | round}}%;
                                             background-color: #f9a503;
                                           "
                                           aria-valuenow="30"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          65%
+                                        {{(aspectAnalysis.fneutral/(aspectAnalysis.funny + aspectAnalysis.fneutral)*100.0) | round}}%
                                         </div>
                                         <div
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 25%;
+                                            width:{{(aspectAnalysis.funny/(aspectAnalysis.funny + aspectAnalysis.fneutral)*100.0) | round}}%;
                                             background-color: #4de600;
                                           "
                                           aria-valuenow="20"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          20%
+                                        {{(aspectAnalysis.funny/(aspectAnalysis.funny + aspectAnalysis.fneutral)*100.0) | round}}
                                         </div>
                                       </div>
                                       <div class="ml-3" style="width: 10%">
-                                        29 Tweets
+                                        {{aspectAnalysis.funny + aspectAnalysis.fneutral}} Tweets
                                       </div>
                                     </div>
                                   </li>
 
                                   <li
                                     class="col-md-10 my-2 aspect-progress-bar p-2"
-                                    onclick="ReviewModal(true)"
+                                    onclick="HatespeechModal(true)"
                                   >
                                     <div class="d-flex align-items-center">
                                       <a
@@ -427,44 +523,44 @@
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 15%;
+                                            width: {{(aspectAnalysis.offensive/(aspectAnalysis.hatespeech + aspectAnalysis.offensive + aspectAnalysis.honeutral)*100.0) | round}}%;
                                             background-color: #c21a1a;
                                           "
                                           aria-valuenow="15"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          15%
+                                        {{(aspectAnalysis.offensive/(aspectAnalysis.hatespeech + aspectAnalysis.offensive + aspectAnalysis.honeutral)*100.0) | round}}%
                                         </div>
                                         <div
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 60%;
+                                            width: {{(aspectAnalysis.hatespeech/(aspectAnalysis.hatespeech + aspectAnalysis.offensive + aspectAnalysis.honeutral)*100.0) | round}}%;
                                             background-color: #f9a503;
                                           "
                                           aria-valuenow="30"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          65%
+                                        {{(aspectAnalysis.hatespeech/(aspectAnalysis.hatespeech + aspectAnalysis.offensive + aspectAnalysis.honeutral)*100.0) | round}}%
                                         </div>
                                         <div
                                           class="progress-bar"
                                           role="progressbar"
                                           style="
-                                            width: 25%;
+                                            width: {{(aspectAnalysis.honeutral/(aspectAnalysis.hatespeech + aspectAnalysis.offensive + aspectAnalysis.honeutral)*100.0) | round}}%;
                                             background-color: #4de600;
                                           "
                                           aria-valuenow="20"
                                           aria-valuemin="0"
                                           aria-valuemax="100"
                                         >
-                                          20%
+                                        {{(aspectAnalysis.honeutral/(aspectAnalysis.hatespeech + aspectAnalysis.offensive + aspectAnalysis.honeutral)*100.0) | round}}%
                                         </div>
                                       </div>
                                       <div class="ml-3" style="width: 10%">
-                                        29 Tweets
+                                        {{aspectAnalysis.hatespeech + aspectAnalysis.offensive + aspectAnalysis.honeutral}} Tweets
                                       </div>
                                     </div>
                                   </li>
@@ -475,7 +571,7 @@
                               </div>
 
                               <div class="my-4 ml-2" style="height: 500px">
-                                <div id="review-modal" style="display: none">
+                                <div id="sentiment-modal" style="display: none">
                                   <div
                                     class="modal-content"
                                     style="height: 500px"
@@ -490,7 +586,409 @@
                                       <button
                                         type="button"
                                         class="close"
-                                        onclick="ReviewModal(false)"
+                                        onclick="SentimentModal(false)"
+                                      >
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div
+                                      class="modal-body p-4"
+                                      style="padding-top: 0px; overflow: auto"
+                                    >
+                                      <ul
+                                        style="
+                                          list-style: decimal;
+                                          height: 500px;
+                                        "
+                                      >
+                                      {% for row in tweets_based_prediction %}
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #f8eded;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                             {{row.content}}
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                {% if row.negative_positive_neutral == 'Negative' %}
+                                                style="
+                                                  background-color: #c21a1a;
+                                                "
+                                                {% elif row.negative_positive_neutral == 'Positive' %}
+                                                style="
+                                                  background-color: #4de600;
+                                                "
+                                                {% else %}
+                                                style="
+                                                background-color: #f9a503;
+                                              "
+                                              {% endif %}
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      {% endfor %}
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="my-4 ml-2" style="height: 500px">
+                                <div id="humour-modal" style="display: none">
+                                  <div
+                                    class="modal-content"
+                                    style="height: 500px"
+                                  >
+                                    <div class="modal-header">
+                                      <h4
+                                        class="modal-title"
+                                        id="exampleModalLongTitle"
+                                      >
+                                        Tweets
+                                      </h4>
+                                      <button
+                                        type="button"
+                                        class="close"
+                                        onclick="HumourModal(false)"
+                                      >
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div
+                                      class="modal-body p-4"
+                                      style="padding-top: 0px; overflow: auto"
+                                    >
+                                      <ul
+                                        style="
+                                          list-style: decimal;
+                                          height: 500px;
+                                        "
+                                      >
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #f8eded;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              Worst hostel experidasdasdsaence!
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #c21a1a;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #faf7e4;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              The most outstanding thing and
+                                              what makes the stay at this hostel
+                                              worthwhile is the service.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #f9a503;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #e1ffdb;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              PS: This type of hostel is not for
+                                              those who are claustrophobic.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #4de600;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #f8eded;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              Worst hostel experidasdasdsaence!
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #c21a1a;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #faf7e4;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              The most outstanding thing and
+                                              what makes the stay at this hostel
+                                              worthwhile is the service.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #f9a503;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #e1ffdb;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              PS: This type of hostel is not for
+                                              those who are claustrophobic.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #4de600;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #f8eded;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              Worst hostel experidasdasdsaence!
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #c21a1a;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #faf7e4;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              The most outstanding thing and
+                                              what makes the stay at this hostel
+                                              worthwhile is the service.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #f9a503;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li
+                                          class="px-3 py-1 mb-1"
+                                          style="
+                                            border-radius: 20px;
+                                            background-color: #e1ffdb;
+                                          "
+                                        >
+                                          <div
+                                            class="d-flex align-items-center"
+                                          >
+                                            <p class="m-0" style="width: 80%">
+                                              PS: This type of hostel is not for
+                                              those who are claustrophobic.
+                                            </p>
+                                            <div
+                                              class="d-flex"
+                                              style="
+                                                width: 20%;
+                                                flex-direction: row-reverse;
+                                                padding-right: 10px;
+                                              "
+                                            >
+                                              <div
+                                                class="square"
+                                                style="
+                                                  background-color: #4de600;
+                                                "
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="my-4 ml-2" style="height: 500px">
+                                <div id="hatespeech-modal" style="display: none">
+                                  <div
+                                    class="modal-content"
+                                    style="height: 500px"
+                                  >
+                                    <div class="modal-header">
+                                      <h4
+                                        class="modal-title"
+                                        id="exampleModalLongTitle"
+                                      >
+                                        Tweets
+                                      </h4>
+                                      <button
+                                        type="button"
+                                        class="close"
+                                        onclick="HatespeechModal(false)"
                                       >
                                         <span aria-hidden="true">&times;</span>
                                       </button>
@@ -1013,9 +1511,11 @@
          
       </div>
     </div>
+
+    <!-- Cloud of words -->
+   
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
-    <script src="static/NEW/js/cloud-of-words.js"></script>
     <script src="static/NEW/vendors/js/vendor.bundle.base.js"></script>
     <script src="static/NEW/vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="static/NEW/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
@@ -1211,17 +1711,61 @@
         },
       });
 
-      var config = {
+     var config_humour = {
         type: "doughnutLabels",
         data: {
           datasets: [
             {
-              data: [54, 11],
+              data: [{{meters.fp}}, {{meters.fn}}],
               backgroundColor: ["#4DE600", "#C21A1A"],
               label: "Dataset 1",
             },
           ],
-          labels: ["Data 1 = 54", "Data 2 = 11"],
+          labels: ["Positive = {{meters.fp}}"  , "Negative = {{meters.fn}}" ],
+        },
+        options: {
+          circumference: Math.PI,
+          rotation: 1.0 * Math.PI,
+          responsive: true,
+          legend: { position: "top" },
+          title: { display: true },
+          animation: { animateScale: true, animateRotate: true },
+        },
+      };
+
+      var config_hatespeech = {
+        type: "doughnutLabels",
+        data: {
+          datasets: [
+            {
+              data: [{{meters.hp}}, {{meters.hn}}],
+              backgroundColor: ["#4DE600", "#C21A1A"],
+              label: "Dataset 1",
+            },
+          ],
+          labels: ["Positive = {{meters.hp}}", "Negatve  = {{meters.hn}}"],
+        },
+        options: {
+          circumference: Math.PI,
+          rotation: 1.0 * Math.PI,
+          responsive: true,
+          legend: { position: "top" },
+          title: { display: true },
+          animation: { animateScale: true, animateRotate: true },
+        },
+      };
+
+      var config_offensive = {
+        type: "doughnutLabels",
+        data: {
+          datasets: [
+            {
+              data: [{{meters.op}}, {{meters.on}}],
+              backgroundColor: ["#4DE600", "#C21A1A"],
+              label: "Dataset 1",
+            },
+          ],
+          labels: ["Positive = {{meters.op}}", "Negative = {{meters.on}}"],
         },
         options: {
           circumference: Math.PI,
@@ -1236,9 +1780,9 @@
       var ctx = document.getElementById("myChart").getContext("2d");
       var ctx2 = document.getElementById("myChart2").getContext("2d");
       var ctx3 = document.getElementById("myChart3").getContext("2d");
-      new Chart(ctx, config);
-      new Chart(ctx2, config);
-      new Chart(ctx3, config);
+      new Chart(ctx, config_humour);
+      new Chart(ctx2, config_hatespeech);
+      new Chart(ctx3, config_offensive);
       
     </script>
 
@@ -1363,11 +1907,29 @@
     </script>
 
     <script>
-      function ReviewModal(check) {
+      function SentimentModal(check) {
         if (check === false)
-          document.getElementById("review-modal").style.display = "none";
+          document.getElementById("sentiment-modal").style.display = "none";
         if (check === true)
-          document.getElementById("review-modal").style.display = "block";
+          document.getElementById("sentiment-modal").style.display = "block";
+          document.getElementById("hatespeech-modal").style.display = "none";
+          document.getElementById("humour-modal").style.display = "none";
+      }
+      function HumourModal(check) {
+        if (check === false)
+          document.getElementById("humour-modal").style.display = "none";
+        if (check === true)
+          document.getElementById("humour-modal").style.display = "block";
+          document.getElementById("hatespeech-modal").style.display = "none";
+          document.getElementById("sentiment-modal").style.display = "none";
+      }
+      function HatespeechModal(check) {
+        if (check === false)
+          document.getElementById("hatespeech-modal").style.display = "none";
+        if (check === true)
+          document.getElementById("hatespeech-modal").style.display = "block";
+          document.getElementById("humour-modal").style.display = "none";
+          document.getElementById("sentiment-modal").style.display = "none";
       }
     </script>
 
@@ -1485,6 +2047,74 @@
           "longitude": "27.158755"
         }
       ]
+    </script>
+    <script>
+      var chart = echarts.init(document.getElementById("main"));
+var checkOption1, checkOption2;
+checkOption1 = document.getElementById("optionsRadios1");
+checkOption2 = document.getElementById("optionsRadios2");
+checkOption();
+function checkOption() {
+  if (checkOption1.checked) {
+
+    var option1=[]
+    {% for row in count %}
+    option1.push(
+      {
+        name: "{{row[0]}}",
+        value: {{row[1]}},
+        textStyle: {
+          normal: {
+            color: "#4DE600",
+          },
+        },
+      },
+      )
+      {% endfor %}
+
+    
+  } 
+  var option = {
+    series: [
+      {
+        type: "wordCloud",
+        gridSize: 10,
+        maskImage: false,
+        sizeRange: [12, 50],
+        cursor: "pointer",
+        rotationRange: [0, 0],
+        shape: "circle",
+        width: 800,
+        height: 400,
+        tooltip: {
+          width: 0,
+          height: 0,
+        },
+        drawOutOfBound: false,
+        textStyle: {
+          normal: {
+            color: function () {
+              return (
+                "rgb(" +
+                [
+                  Math.round(Math.random() * 160),
+                  Math.round(Math.random() * 160),
+                  Math.round(Math.random() * 160),
+                ].join(",") +
+                ")"
+              );
+            },
+          },
+        },
+        data: option1,
+      },
+    ],
+  };
+
+  chart.setOption(option);
+
+  window.onresize = chart.resize;
+}
     </script>
   </body>
 </html>
