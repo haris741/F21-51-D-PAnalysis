@@ -1,1550 +1,262 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>Panalysis | View Report</title>
-    <link rel="shortcut icon" href="images/favicon.png" />
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="static/vendors/feather/feather.css" />
-    <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css" />
-    <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="static/vendors/datatables.net-bs4/dataTables.bootstrap4.css"
-    />
-    <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="static/js/select.dataTables.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="static/vendors/mdi/css/materialdesignicons.min.css" />
-    <link rel="stylesheet" href="static/css/vertical-layout-light/style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <style>
-      .progress .progress-bar {
-        border-radius: 0px;
-      }
-      .aspect-progress-bar {
-        transition: all 0.3s;
-      }
-      .aspect-progress-bar:hover {
-        background-color: rgb(228, 228, 228);
-        cursor: pointer;
-      }
-      .square {
-        height: 13px;
-        width: 13px;
-        border-radius: 50px;
-      }
-      #main {
-        width: 600px;
-        height: 500px;
-        margin: 0px;
-      }
+{% block title %} Home {% endblock %}
 
-      .google-map-infowindow-content {
-        padding: 0.4rem 1rem;
-        font-weight: 500;
-        font-size: 14px;
-        color: black;
-        line-height: 1.5;
-      }
+{% block body %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
 
-      a {
-        color: inherit;
-      }
 
-      .gm-style .gm-style-iw-t::after {
-        top: -1px;
-      }
-
-      #google-map {
-        height: 700px;
-        width: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container-scroller">
-      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" id="navbar">
-        <div
-          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
-        >
-          <a class="navbar-brand brand-logo" href="index.html" >
-            <img src="static/images/logo.png" alt="logo" class="img-fluid" id="logo1"/>
-          </a>
-          <!-- <a class="navbar-brand brand-logo" href="index.html" style="display: none;" id="logo2">
-            <img src="static/images/logo-white.png" alt="logo" class="img-fluid"/>
-          </a> -->
-          <a class="navbar-brand brand-logo-mini" href="index.html">
-            <img
-              src="static/images/favicon.png"
-              style="width: 100% !important;"
-              alt="logo"
-              class="img-fluid"
-            />
-          </a>
-        </div>
-        <div
-          class="navbar-menu-wrapper d-flex align-items-center"
-          style="justify-content: space-between;"
-        >
-          <button
-            class="navbar-toggler navbar-toggler align-self-center"
-            type="button"
-            data-toggle="minimize"
-          >
-            <span class="icon-menu"></span>
-          </button>
-
-          <button
-            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
-            type="button"
-            data-toggle="offcanvas"
-          >
-            <span class="icon-menu"></span>
-          </button>
-          <img src="static/images/moon.png" id="sidebar-dark-theme">
-        </div>
-      </nav>
-      <div class="container-fluid page-body-wrapper">
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-          <ul class="nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="/user_dashboard">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user_queries">
-                <i class="icon-paper menu-icon"></i>
-                <span class="menu-title">Queries</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user_groups">
-                <i class="icon-grid-2 menu-icon"></i>
-                <span class="menu-title">Groups</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user_edit_profile">
-                <i class="ti-pencil menu-icon"></i>
-                <span class="menu-title">Edit Profile</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="ti-power-off menu-icon"></i>
-                <span class="menu-title">Log Out</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="row">
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row mt-4">
-                        <div class="col-6">
-                          <p class="card-title ms-4 mt-2">Report Name: Report 1</p>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-group" style="display: flex; justify-content: right;">
-                            <input type="date" class="form-control me-4" style="width: 80%;">
-                          </div>
-                        </div>
-                        <div>
-                          <div>
-                            <div class="row ms-4 me-4 mb-4">
-                              <div class="form-group mb-0 p-0">
-                                <select
-                                  id="choices-multiple-remove-button"
-                                  class="form-select rounded-pill selectlang py-4"
-                                  placeholder="Select aspects"
-                                  multiple
-                                  style="background-color: #fdf5f5"
-                                >
-                                  <option disabled>Select Groups</option>
-                                  <option value="af">30 Bencoolen</option>
-                                  <option value="sq">10min</option>
-                                  <option value="am">24h</option>
-                                  <option value="ar">5min</option>
-                                  <option value="an">28 Dunlop</option>
-                                  <option value="hy">access</option>
-                                  <option value="ast">accommodation</option>
-                                  <option value="az">adapter</option>
-                                  <option value="eu">advance</option>
-                                  <option value="be">airport</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <form class="forms-sample">
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="tab custom-tab">
-                            <a
-                              class="tablinks"
-                              onclick="openReports(event, 'meter')"
-                              id="defaultOpen"
-                            >
-                              Meter
-                            </a>
-                            <a
-                              class="tablinks"
-                              onclick="openReports(event, 'timeline')"
-                            >
-                              Timeline
-                            </a>
-                            <a
-                              class="tablinks"
-                              onclick="openReports(event, 'analysis')"
-                            >
-                              Aspect Analysis
-                            </a>
-                            
-                            
-                            <a
-                              class="tablinks"
-                              onclick="openReports(event, 'cloudWords')"
-                            >
-                              Cloud of Words
-                            </a>
-                            
-                          </div>
-                          <div id="meter" class="tabcontent">
-                            <div
-                              class="meter-section-1"
-                              style="
-                                display: flex;
-                                justify-content: center;
-                                flex-wrap: wrap;
-                              "
-                            >
-                              <div class="mt-4">
-                                <canvas id="myChart"></canvas>
-                                <h3 class="text-center mt-4">Humour</h3>
-                              </div>
-                              <div class="mt-4">
-                                <canvas id="myChart2"></canvas>
-                                <h3 class="text-center mt-4">Hatespeech</h3>
-                              </div>
-                              <div class="mt-4">
-                                <canvas id="myChart3"></canvas>
-                                <h3 class="text-center mt-4">Offensive</h3>
-                              </div>
-                            </div>
-
-                            <div
-                              class="mt-5 meter-section-2"
-                              style="
-                                display: flex;
-                                justify-content: center;
-                                flex-wrap: wrap;
-                              "
-                            >
-                             
-                            </div>
-                          </div>
-
-                          <div id="timeline" class="tabcontent row">
-                            <div class="mt-2 mb-4">
-                            
-                              <div class="row justify-content-around">
-                                <div class="col-md-5 mt-3">
-                                  <h3 class="my-4">Aspect Timeline:</h3>
-                                  <canvas
-                                    id="AspectsTimeline"
-                                    width="700"
-                                    height="350"
-                                  ></canvas>
-                                </div>
-                                <div class="col-md-5 mt-3">
-                                  <h3 class="my-4 mb-5">Sentiment Timeline:</h3>
-                                  <canvas id="LineChart"></canvas>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div id="analysis" class="tabcontent">
-                            <div class="container">
-                              <input
-                                type="text"
-                                id="AnalysisSearch"
-                                onkeyup="analysisSearch()"
-                                placeholder="Search..."
-                                class="p-2 mt-3"
-                                style="border: 1px solid"
-                              />
-                            </div>
-
-                            <div class="d-flex">
-                              <div
-                                class="my-4"
-                                style="
-                                  height: 500px;
-                                  overflow: auto;
-                                  width: 100%;
-                                "
-                              >
-                                <ul
-                                  id="analysisUl"
-                                  class="d-flex flex-column"
-                                  style="
-                                    list-style: none;
-                                    width: 100%;
-                                    align-items: center;
-                                  "
-                                >
-                                  <li
-                                    class="col-md-10 my-2 aspect-progress-bar p-2"
-                                    onclick="ReviewModal(true)"
-                                  >
-                                    <div class="d-flex align-items-center">
-                                      <a
-                                        href="#"
-                                        class="mr-3 text-right pr-1"
-                                        style="
-                                          width: 8%;
-                                          border-right: 2px solid
-                                            rgb(109, 109, 109);
-                                          text-decoration: none;
-                                          color: black;
-                                        "
-                                      >
-                                        Sentiment
-                                      </a>
-                                      <div class="progress" style="width: 90%">
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 15%;
-                                            background-color: #c21a1a;
-                                          "
-                                          aria-valuenow="15"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          15%
-                                        </div>
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 60%;
-                                            background-color: #f9a503;
-                                          "
-                                          aria-valuenow="30"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          65%
-                                        </div>
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 25%;
-                                            background-color: #4de600;
-                                          "
-                                          aria-valuenow="20"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          20%
-                                        </div>
-                                      </div>
-                                      <div class="ml-3" style="width: 10%">
-                                        29 Tweets
-                                      </div>
-                                    </div>
-                                  </li>
-
-                                  <li
-                                    class="col-md-10 my-2 aspect-progress-bar p-2"
-                                    onclick="ReviewModal(true)"
-                                  >
-                                    <div class="d-flex align-items-center">
-                                      <a
-                                        href="#"
-                                        class="mr-3 text-right pr-1"
-                                        style="
-                                          width: 8%;
-                                          border-right: 2px solid
-                                            rgb(109, 109, 109);
-                                          text-decoration: none;
-                                          color: black;
-                                        "
-                                      >
-                                        Humour
-                                      </a>
-                                      <div class="progress" style="width: 90%">
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 15%;
-                                            background-color: #c21a1a;
-                                          "
-                                          aria-valuenow="15"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          15%
-                                        </div>
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 60%;
-                                            background-color: #f9a503;
-                                          "
-                                          aria-valuenow="30"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          65%
-                                        </div>
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 25%;
-                                            background-color: #4de600;
-                                          "
-                                          aria-valuenow="20"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          20%
-                                        </div>
-                                      </div>
-                                      <div class="ml-3" style="width: 10%">
-                                        29 Tweets
-                                      </div>
-                                    </div>
-                                  </li>
-
-                                  <li
-                                    class="col-md-10 my-2 aspect-progress-bar p-2"
-                                    onclick="ReviewModal(true)"
-                                  >
-                                    <div class="d-flex align-items-center">
-                                      <a
-                                        href="#"
-                                        class="mr-3 text-right pr-1"
-                                        style="
-                                          width: 8%;
-                                          border-right: 2px solid
-                                            rgb(109, 109, 109);
-                                          text-decoration: none;
-                                          color: black;
-                                        "
-                                      >
-                                        Hatespeech
-                                      </a>
-                                      <div class="progress" style="width: 90%">
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 15%;
-                                            background-color: #c21a1a;
-                                          "
-                                          aria-valuenow="15"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          15%
-                                        </div>
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 60%;
-                                            background-color: #f9a503;
-                                          "
-                                          aria-valuenow="30"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          65%
-                                        </div>
-                                        <div
-                                          class="progress-bar"
-                                          role="progressbar"
-                                          style="
-                                            width: 25%;
-                                            background-color: #4de600;
-                                          "
-                                          aria-valuenow="20"
-                                          aria-valuemin="0"
-                                          aria-valuemax="100"
-                                        >
-                                          20%
-                                        </div>
-                                      </div>
-                                      <div class="ml-3" style="width: 10%">
-                                        29 Tweets
-                                      </div>
-                                    </div>
-                                  </li>
-
-                                
-                                  
-                                </ul>
-                              </div>
-
-                              <div class="my-4 ml-2" style="height: 500px">
-                                <div id="review-modal" style="display: none">
-                                  <div
-                                    class="modal-content"
-                                    style="height: 500px"
-                                  >
-                                    <div class="modal-header">
-                                      <h4
-                                        class="modal-title"
-                                        id="exampleModalLongTitle"
-                                      >
-                                        Tweets
-                                      </h4>
-                                      <button
-                                        type="button"
-                                        class="close"
-                                        onclick="ReviewModal(false)"
-                                      >
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div
-                                      class="modal-body p-4"
-                                      style="padding-top: 0px; overflow: auto"
-                                    >
-                                      <ul
-                                        style="
-                                          list-style: decimal;
-                                          height: 500px;
-                                        "
-                                      >
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                     
-
-                          <div id="correlations" class="tabcontent">
-                            <div
-                              style="display: flex; justify-content: center"
-                              class="mb-4"
-                            >
-                              <div class="col-md-10">
-                                <div class="table-responsive mb-3 mb-md-0 mt-3">
-                                  <table
-                                    class="table table-borderless report-table"
-                                  >
-                                    <tr>
-                                      <td class="text-muted">Illinois</td>
-                                      <td class="w-100 px-0">
-                                        <div class="progress progress-md mx-4">
-                                          <div
-                                            class="progress-bar"
-                                            role="progressbar"
-                                            style="
-                                              width: 70%;
-                                              background-color: #4de600;
-                                            "
-                                            aria-valuenow="70"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                          ></div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h5 class="font-weight-bold mb-0">
-                                          713
-                                        </h5>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="text-muted">Washington</td>
-                                      <td class="w-100 px-0">
-                                        <div class="progress progress-md mx-4">
-                                          <div
-                                            class="progress-bar"
-                                            role="progressbar"
-                                            style="
-                                              width: 30%;
-                                              background-color: #c21a1a;
-                                            "
-                                            aria-valuenow="30"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                          ></div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h5 class="font-weight-bold mb-0">
-                                          583
-                                        </h5>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="text-muted">Mississippi</td>
-                                      <td class="w-100 px-0">
-                                        <div class="progress progress-md mx-4">
-                                          <div
-                                            class="progress-bar"
-                                            role="progressbar"
-                                            style="
-                                              width: 95%;
-                                              background-color: #c21a1a;
-                                            "
-                                            aria-valuenow="95"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                          ></div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h5 class="font-weight-bold mb-0">
-                                          924
-                                        </h5>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="text-muted">California</td>
-                                      <td class="w-100 px-0">
-                                        <div class="progress progress-md mx-4">
-                                          <div
-                                            class="progress-bar"
-                                            role="progressbar"
-                                            style="
-                                              width: 60%;
-                                              background-color: #4de600;
-                                            "
-                                            aria-valuenow="60"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                          ></div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h5 class="font-weight-bold mb-0">
-                                          664
-                                        </h5>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="text-muted">Maryland</td>
-                                      <td class="w-100 px-0">
-                                        <div class="progress progress-md mx-4">
-                                          <div
-                                            class="progress-bar"
-                                            role="progressbar"
-                                            style="
-                                              width: 40%;
-                                              background-color: #c21a1a;
-                                            "
-                                            aria-valuenow="40"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                          ></div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h5 class="font-weight-bold mb-0">
-                                          560
-                                        </h5>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="text-muted">Alaska</td>
-                                      <td class="w-100 px-0">
-                                        <div class="progress progress-md mx-4">
-                                          <div
-                                            class="progress-bar"
-                                            role="progressbar"
-                                            style="
-                                              width: 75%;
-                                              background-color: #4de600;
-                                            "
-                                            aria-valuenow="75"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                          ></div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h5 class="font-weight-bold mb-0">
-                                          793
-                                        </h5>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div id="cloudWords" class="tabcontent">
-                            <div style="display: flex; justify-content: center">
-                              <div class="col-md-8 mt-4">
-                                <div
-                                  class="form-group"
-                                  style="display: flex; justify-content: center"
-                                >
-                                  <div class="form-check">
-                                    <label class="form-check-label">
-                                      <input
-                                        type="radio"
-                                        class="form-check-input"
-                                        name="optionsRadios"
-                                        id="optionsRadios1"
-                                        checked
-                                        onclick="checkOption()"
-                                      />
-                                      Cloud of words - Frequency
-                                    </label>
-                                  </div>
-                                  
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="col-12"
-                              style="
-                                display: flex;
-                                justify-content: center;
-                                margin-top: -2.5%;
-                              "
-                            >
-                              <div id="main"></div>
-                            </div>
-                          </div>
-
-                          <div id="map" class="tabcontent">
-                            <div
-                              style="display: flex; justify-content: center"
-                              class="mb-4"
-                            >
-                              <div class="col-md-12 mt-4">
-                                <div id="google-map"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <footer class="footer">
-            <div class="d-sm-flex justify-content-center">
-              <span
-                class="text-gernal text-center text-sm-left d-block d-sm-inline-block"
-              >
-                Copyright © 2022. All rights reserved.
-                <a href="https://www.themewagon.com/" target="_blank">
-                  Panalysis
-                </a>
-              </span>
-            </div>
-          </footer>
-        </div>
-      </div>
-    </div>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
-    <script src="static/js/cloud-of-words.js"></script>
-    <script src="static/vendors/js/vendor.bundle.base.js"></script>
-    <script src="static/vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="static/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-    <script src="static/js/dataTables.select.min.js"></script>
-    <script src="static/js/off-canvas.js"></script>
-    <script src="static/js/hoverable-collapse.js"></script>
-    <script src="static/js/template.js"></script>
-    <script src="static/js/settings.js"></script>
-    <script src="static/js/dashboard.js"></script>
-    <script src="static/vendors/chart.js/Chart.min.js"></script>
-    <script src="static/js/Chart.roundedBarCharts.js"></script>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-      function openReports(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-      }
-      document.getElementById("defaultOpen").click();
-    </script>
-    <script>
-      Chart.defaults.doughnutLabels = Chart.helpers.clone(
-        Chart.defaults.doughnut
-      );
-
-      var helpers = Chart.helpers;
-      var defaults = Chart.defaults;
-
-      Chart.controllers.doughnutLabels = Chart.controllers.doughnut.extend({
-        updateElement: function (arc, index, reset) {
-          var _this = this;
-          var chart = _this.chart,
-            chartArea = chart.chartArea,
-            opts = chart.options,
-            animationOpts = opts.animation,
-            arcOpts = opts.elements.arc,
-            centerX = (chartArea.left + chartArea.right) / 2,
-            centerY = (chartArea.top + chartArea.bottom) / 2,
-            startAngle = opts.rotation, // non reset case handled later
-            endAngle = opts.rotation, // non reset case handled later
-            dataset = _this.getDataset(),
-            circumference =
-              reset && animationOpts.animateRotate
-                ? 0
-                : arc.hidden
-                ? 0
-                : _this.calculateCircumference(dataset.data[index]) *
-                  (opts.circumference / (2.0 * Math.PI)),
-            innerRadius =
-              reset && animationOpts.animateScale ? 0 : _this.innerRadius,
-            outerRadius =
-              reset && animationOpts.animateScale ? 0 : _this.outerRadius,
-            custom = arc.custom || {},
-            valueAtIndexOrDefault = helpers.getValueAtIndexOrDefault;
-
-          helpers.extend(arc, {
-            // Utility
-            _datasetIndex: _this.index,
-            _index: index,
-
-            // Desired view properties
-            _model: {
-              x: centerX + chart.offsetX,
-              y: centerY + chart.offsetY,
-              startAngle: startAngle,
-              endAngle: endAngle,
-              circumference: circumference,
-              outerRadius: outerRadius,
-              innerRadius: innerRadius,
-              label: valueAtIndexOrDefault(
-                dataset.label,
-                index,
-                chart.data.labels[index]
-              ),
-            },
-
-            draw: function () {
-              var ctx = this._chart.ctx,
-                vm = this._view,
-                sA = vm.startAngle,
-                eA = vm.endAngle,
-                opts = this._chart.config.options;
-
-              var labelPos = this.tooltipPosition();
-              var segmentLabel = (vm.circumference / opts.circumference) * 100;
-
-              ctx.beginPath();
-
-              ctx.arc(vm.x, vm.y, vm.outerRadius, sA, eA);
-              ctx.arc(vm.x, vm.y, vm.innerRadius, eA, sA, true);
-
-              ctx.closePath();
-              ctx.strokeStyle = vm.borderColor;
-              ctx.lineWidth = vm.borderWidth;
-
-              ctx.fillStyle = vm.backgroundColor;
-
-              ctx.fill();
-              ctx.lineJoin = "bevel";
-
-              if (vm.borderWidth) {
-                ctx.stroke();
-              }
-
-              if (vm.circumference > 0.0015) {
-                // Trying to hide label when it doesn't fit in segment
-                ctx.beginPath();
-                ctx.font = helpers.fontString(
-                  opts.defaultFontSize,
-                  opts.defaultFontStyle,
-                  opts.defaultFontFamily
-                );
-                ctx.fillStyle = "#190707";
-                ctx.textBaseline = "top";
-                ctx.textAlign = "center";
-
-                // Round percentage in a way that it always adds up to 100%
-                ctx.fillText(
-                  segmentLabel.toFixed(2) + "%",
-                  labelPos.x,
-                  labelPos.y
-                );
-
-                //display in the center the total sum of all segments
-                var total = dataset.data.reduce((sum, val) => sum + val, 0);
-                ctx.fillText("Total = " + total, vm.x, vm.y - 20, 200);
-              }
-            },
-          });
-
-          var model = arc._model;
-          model.backgroundColor = custom.backgroundColor
-            ? custom.backgroundColor
-            : valueAtIndexOrDefault(
-                dataset.backgroundColor,
-                index,
-                arcOpts.backgroundColor
-              );
-          model.hoverBackgroundColor = custom.hoverBackgroundColor
-            ? custom.hoverBackgroundColor
-            : valueAtIndexOrDefault(
-                dataset.hoverBackgroundColor,
-                index,
-                arcOpts.hoverBackgroundColor
-              );
-          model.borderWidth = custom.borderWidth
-            ? custom.borderWidth
-            : valueAtIndexOrDefault(
-                dataset.borderWidth,
-                index,
-                arcOpts.borderWidth
-              );
-          model.borderColor = custom.borderColor
-            ? custom.borderColor
-            : valueAtIndexOrDefault(
-                dataset.borderColor,
-                index,
-                arcOpts.borderColor
-              );
-
-          // Set correct angles if not resetting
-          if (!reset || !animationOpts.animateRotate) {
-            if (index === 0) {
-              model.startAngle = opts.rotation;
-            } else {
-              model.startAngle =
-                _this.getMeta().data[index - 1]._model.endAngle;
-            }
-
-            model.endAngle = model.startAngle + model.circumference;
-          }
-
-          arc.pivot();
-        },
-      });
-
-      var config = {
-        type: "doughnutLabels",
-        data: {
-          datasets: [
-            {
-              data: [54, 11],
-              backgroundColor: ["#4DE600", "#C21A1A"],
-              label: "Dataset 1",
-            },
-          ],
-          labels: ["Data 1 = 54", "Data 2 = 11"],
-        },
-        options: {
-          circumference: Math.PI,
-          rotation: 1.0 * Math.PI,
-          responsive: true,
-          legend: { position: "top" },
-          title: { display: true },
-          animation: { animateScale: true, animateRotate: true },
-        },
-      };
-
-      var ctx = document.getElementById("myChart").getContext("2d");
-      var ctx2 = document.getElementById("myChart2").getContext("2d");
-      var ctx3 = document.getElementById("myChart3").getContext("2d");
-      new Chart(ctx, config);
-      new Chart(ctx2, config);
-      new Chart(ctx3, config);
+.row {
       
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: inherit !important;
+
+}
+
+
+@media only screen and (max-width: 600px) {
+    .row {
+    display: -ms-flexbox;
+    display: grid !important;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    overflow: hidden !important;
+}
+
+body > div.container-fluid.display-table > div > div.container.rounded.mt-5.bg-white.p-md-5 > div.align-items-center > h3
+{
+	
+
+    width: 95% !important;
+    text-align: center;
+    font-size: 16px !important;
+  
+}
+
+body > div.container-fluid.display-table > div > div.container.rounded.mt-5.bg-white.p-md-5 > div.align-items-center > a
+{
+	position: inherit !important;
+}
+
+
+}
+
+
+
+  </style>
+<body id="body" class="home">
+  {% include 'user_nav.html' %}
+  <div class="container">
+
+	<meta charset="UTF-8">
+  
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+			{% for key, value in humour_data.items() %}
+				{% if value is string %}
+					['{{ key }}', '{{ value }}'],
+				{% else %}
+					['{{ key }}', {{ value }}],
+				{% endif %}
+			{% endfor %}
+        ]);
+
+        var options = {
+          title: 'Report: ',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('humour_chart'));
+        chart.draw(data, options);
+        
+      }
     </script>
+     <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Month', 'Tweets'],
+			{% for row in dates %}
+				{% if row.0 is string %}
+					['{{row.1 }}', '{{ row.0 }}'],
+				{% else %}
+					['{{ row.1 }}', {{ row.0 }}],
+				{% endif %}
+			{% endfor %}
+        ]);
 
-    <script>
-      new Chart(document.getElementById("bar-chart-grouped"), {
-        type: "horizontalBar",
-        data: {
-          labels: ["View", "Breakfast", "Pool", "Bed", "Shower"],
-          datasets: [
-            {
-              label: "Positive",
-              backgroundColor: "#4DE600",
-              data: [133, 221, 783, 2478, 2478],
-            },
-            {
-              label: "Negative",
-              backgroundColor: "#C21A1A",
-              data: [408, 547, 675, 734, 734],
-            },
-          ],
-        },
-        options: {},
-      });
-    </script>
+        var options = {
+          title: 'Keyword Analysis ',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
 
-    <script>
-      new Chart(document.getElementById("AspectsTimeline"), {
-        type: "bar",
-        data: {
-          labels: ["10/17", "12/17", "02/18", "04/18", "06/18"],
-          datasets: [
-            {
-              label: "Positive",
-              backgroundColor: "#4DE600",
-              data: [133, 221, 783, 2478, 2478],
-            },
-            {
-              label: "Negative",
-              backgroundColor: "#C21A1A",
-              data: [408, 547, 675, 734, 734],
-            },
-          ],
-        },
-        options: {},
-      });
-    </script>
-
-    <script>
-      var xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
-      var yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
-
-      new Chart("LineChart", {
-        type: "line",
-        data: {
-          labels: xValues,
-          datasets: [
-            {
-              fill: false,
-              lineTension: 0,
-              backgroundColor: "rgba(0,0,255,1.0)",
-              borderColor: "rgba(0,0,255,0.1)",
-              data: yValues,
-            },
-          ],
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-            yAxes: [{ ticks: { min: 6, max: 16 } }],
-          },
-        },
-      });
-    </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-      crossorigin="anonymous"
-    ></script>
-
-    <script>
-      $(document).ready(function () {
-        var multipleCancelButton = new Choices(
-          "#choices-multiple-remove-button",
-          {
-            removeItemButton: true,
-            maxItemCount: 10,
-            searchResultLimit: 10,
-            renderChoiceLimit: 10,
-          }
-        );
-      });
-    </script>
-
-    <script>
-      function analysisSearch() {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("AnalysisSearch");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("analysisUl");
-        li = ul.getElementsByTagName("li");
-        console.log(li.length, " <-------------");
-        for (i = 0; i < li.length; i++) {
-          a = li[i].getElementsByTagName("a")[0];
-          txtValue = a.textContent || a.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-          } else {
-            li[i].style.display = "none";
-          }
-        }
+        var chart = new google.visualization.LineChart(document.getElementById('date_keyword_graph'));
+        chart.draw(data, options);
+        
       }
     </script>
 
-    <script>
-      function ReviewModal(check) {
-        if (check === false)
-          document.getElementById("review-modal").style.display = "none";
-        if (check === true)
-          document.getElementById("review-modal").style.display = "block";
-      }
-    </script>
+<div class="container mt-3 mb-3">
+  <div class="d-flex flex-row align-items-center"></div>
+  <div class=" align-items-center" style="width: max-content;margin: auto;" >
+      <h4>Account Details</h4>
+  </div>
+  <div class="row mt-1 g-4">
+    <div class="col-md-4">
+      <div class="card p-2">
+          <div class="d-flex p-1 px-4 align-items-center"></div>
+          <div class="email mt-1"> <H5 class=" align-items-center" style="
+              width: max-content;
+              margin: auto;
+          " >Profile Picture</<H4>
+              <div class="dummytext mt-1"> <span></span> </div>
+          </div>
+          <img src={{user_profile.profileImage}}>
+      </div>
+  </div>
+      <div class="col-md-4">
+          <div class="card p-2">
+              <div class="d-flex p-1 px-4 align-items-center"></div>
+              <div class="email mt-1"> <H5 class=" align-items-center" style="
+                  width: max-content;
+                  margin: auto;
+              " >USER INFORMATION</<H4>
+                  <div class="dummytext mt-1"> <span></span> </div>
+              </div>
 
-    <!--Google Maps-->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?callback=googleMapInit"
-      defer
-    ></script>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><b>Username:</b> {{user_profile.username}}</li>
+                  <li class="list-group-item"><b>Name:</b>{{user_profile.name}}</li>
+                  <li class="list-group-item"><b>Description:</b> {{user_profile.description}}</li>
+                  <li class="list-group-item"><b>Location:</b> {{user_profile.location}}</li>
+                  <li class="list-group-item"><b>Followers Count:</b> {{user_profile.followersCount}}</li>
+                  <li class="list-group-item"><b>Verified:</b> {{user_profile.isVerified}}</li>
+                  </li>
 
-    <script>
-      const GoogleMaps = function (el, coords) {
-        const gm = window.google && window.google.maps;
+              </ul>
+              </div>
+      </div>
+     
+  </div>
+</div>
+<h3>Top 10 Words Used</h3>
 
-        if (!gm) return;
+<div class="table-responsive" 
+style=" overflow:hidden;
+overflow-y: scroll;
+height: 500px;">
+  <table class="table">
+      <thead>
+          <tr>
 
-        const map = new gm.Map(el);
-        const bounds = new gm.LatLngBounds();
-        const infoWindow = new gm.InfoWindow();
-        map.fitBounds(bounds);
-        for (let coord in coords) {
-          placeMarker(coords[coord]);
-        }
 
-        // map.fitBounds(bounds);
+              <th scope="col">Word</th>
+              <th scope="col">Occurences</th>
+          </tr>
+      </thead>
 
-        const idleListener = gm.event.addListener(map, "idle", function () {
-          if (map.getZoom() > 14) map.setZoom(54);
-          gm.event.removeListener(idleListener);
-        });
+      
 
-        if (infoWindow) {
-          gm.event.addListener(map, "click", function () {
-            infoWindow.close();
-          });
-        }
 
-        function placeMarker(loc) {
-          const marker = new gm.Marker({
-            map: map,
-            position: {
-              lat: Number(loc.latitude),
-              lng: Number(loc.longitude),
-            },
-          });
+        {% for row in count %}
+      <tbody>
 
-          if (infoWindow) {
-            gm.event.addListener(marker, "click", function () {
-              infoWindow.close();
-              infoWindow.setContent(infoWindowTemplate(loc));
-              infoWindow.open(map, marker);
-            });
-          }
 
-          bounds.extend(marker.position);
-        }
+          <tr class="bg-blue">
+              <td class="pt-3 mt-1">{{row[0]}}</td>
+              <td class="pt-3 mt-1">{{row[1]}}</td>
+             
 
-        function infoWindowTemplate(data) {
-          const text = data.location_name;
-          const Tweets = data.Tweets;
-          const sentiment = data.Sentiment;
-          const link = data.location_link;
+              
+            </tr>
 
-          const content = link
-            ? '<a href="' + link + '">' + text + "</a>"
-            : "<div class='d-flex fw-normal'>" +
-              "<div> Hotel Name:" +
-              text +
-              "<div>" +
-              "<div>Tweets:" +
-              Tweets +
-              "<div>" +
-              "<div> Sentiment:" +
-              sentiment +
-              "<div>" +
-                "<div><div class='badge badge-warning mt-1'>night</div> <div class='badge badge-success mt-1'>area</div> <div class='badge badge-warning mt-1 me-1'>hostel</div><div class='badge badge-danger mt-1'>bed</div> </div"
-              "</div>";
+      </tbody>
+        {% endfor %}
 
-          return (
-            '<div class="google-map-infowindow-content">' + content + "</div>"
-          );
-        }
-      };
+      
 
-      window.googleMapInit = function () {
-        const el = document.getElementById("google-map");
-        const coords = JSON.parse(
-          document.getElementById("google-maps-coords").innerHTML
-        );
 
-        GoogleMaps(el, coords);
-      };
-    </script>
+  </table>
 
-    <script type="application/json" id="google-maps-coords">
-      [
-        {
-          "location_name": "Hotel 1",
-          "Tweets": "5",
-          "Sentiment": "3.8",
-          "latitude": "58.639870",
-          "longitude": "27.158714"
-        },
-        {
-          "location_name": "Hotel 2",
-          "Tweets": "55",
-          "Sentiment": "3.9",
-          "latitude": "58.639871",
-          "longitude": "27.158750"
-        },
-        {
-          "location_name": "Hotel 3",
-          "Tweets": "6",
-          "Sentiment": "4.0",
-          "latitude": "58.639892",
-          "longitude": "27.158755"
-        }
-      ]
-    </script>
-  </body>
-</html>
+ 
+
+</div>
+<h3>Prediction for individual Tweets</h3>
+
+<div class="table-responsive"
+style=" overflow:hidden;
+overflow-y: scroll;
+height: 500px;"
+>
+  <table class="table">
+    <thead>
+        <tr>
+
+
+            <th scope="col">Tweet</th>
+            <th scope="col">Humour</th>
+            <th scope="col">Sentiment</th>
+            <th scope="col">Behaviour</th>
+
+
+          </tr>
+    </thead>
+
+    
+
+
+      {% for row in tweets_based_prediction %}
+    <tbody>
+
+
+        <tr class="bg-blue">
+            <td class="pt-3 mt-1">{{row.content}}</td>
+            <td class="pt-3 mt-1">{{row.humour}}</td>
+            <td class="pt-3 mt-1">{{row.negative_positive_neutral}}</td>
+            <td class="pt-3 mt-1">{{row.hatespeech_offensive}}</td>
+
+           
+
+            
+          </tr>
+
+    </tbody>
+      {% endfor %}
+
+    
+
+
+</table>
+
+ 
+
+</div>
+	<div style="margin: 10px 0 0 10px;width: 1000px;">
+		<h3>Personality Analysis</h3>
+		
+
+    
+		<div id="humour_chart" ></div>
+        <div id="hatespeechOffensive_chart" ></div>
+        <div id="negative_positive_neutral_chart" style="width: 900px; height: 500px;"></div>
+        <div id="date_keyword_graph" style="width: 900px; height: 500px;"></div>
+        
+
+	</div>
+  
+  
+</div>
+</body>
+{% endblock %}

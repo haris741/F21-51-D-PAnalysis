@@ -19,6 +19,16 @@ from scraper import Scraper
 import pandas as pd
 from collections import Counter
 from models import Model
+# import libraries
+from sklearn.metrics import f1_score,classification_report
+from utils import get_logger,preprocess_text
+import pandas as pd
+import unittest
+import logging
+import warnings
+import joblib
+import os
+warnings.filterwarnings('ignore')
 class Predicting():
     def __init__(self):
         self.queries = []
@@ -62,11 +72,16 @@ class Predicting():
 
 
         # hatespeech offensive prediction
-        model = Model()
-        model.addModel("static/models/hatespeech_offensive/saved_model/random_forest.joblib")
-        hatespeech_offensive=model.predict(df)
-        hatespeech_offensive=hatespeech_offensive.transpose()
-        hatespeech_offensive=hatespeech_offensive.rename({0: 'Hate Speech', 1: 'Offensive', 2: 'Neutral'}, axis='columns')
+        vectorizer = joblib.load(os.path.join('static/models/hatespeech_offensive/saved_model','vectorizer.pkl'))
+
+        model = joblib.load(os.path.join('static/models/hatespeech_offensive/saved_model','model.pkl'))
+        X_test = vectorizer.transform(df['content'].map(preprocess_text))
+        hatespeech_offensive = []
+        hatespeech_offensive.append( model.predict(X_test))
+        hatespeech_offensive= pd.DataFrame(hatespeech_offensive)
+        hatespeech_offensive=hatespeech_offensive.apply(pd.Series.value_counts)
+        hatespeech_offensive = hatespeech_offensive.transpose()
+        hatespeech_offensive=hatespeech_offensive.rename({0: 'Hate Speech', 1: 'Offensive', 2: 'Neutral'},  axis='columns')
         # appendinge hatespeech_offensive to existing dataframe
         output["hatespeech_offensive"] = hatespeech_offensive.idxmax(axis=1)
 
@@ -78,12 +93,14 @@ class Predicting():
         negativePositiveNeutral=negativePositiveNeutral.transpose()
         negativePositiveNeutral=negativePositiveNeutral.rename({0: 'Neutral', 1: 'Positive', 2: 'Negative', 3: 'Mixed'}, axis='columns')
         output["negative_positive_neutral"] = negativePositiveNeutral.idxmax(axis=1)
-
+        print(negativePositiveNeutral)
         cursor, db = self.db.getFreshConnection()
         
         # generating list of columns to insert into database
         cols = "`,`".join([str(i) for i in output.columns.tolist()])
 
+
+        print(output.head())
         # Insert DataFrame recrds one by one.
         for i,row in output.iterrows():
             sql = "INSERT INTO `tweets_prediction` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
@@ -140,8 +157,8 @@ class Predicting():
 
                 # close the connection so other nodes could start processing
                 self.db.close_connection(cursor, db)
-                try:
-                    self.scrape(row[2])
+                if 1==1:
+                    # self.scrape(row[2])
                     
 
                     # try making the prediction given the username 
@@ -155,13 +172,13 @@ class Predicting():
                     cursor.execute("UPDATE `query` set status = 4 where id= %s",[row[0]])
                     db.commit()
                     self.db.close_connection(cursor, db)
-                except Exception as e:
-                    cursor, db = self.db.getFreshConnection()
-                    print("Exception")
-                    print(e )
-                    cursor.execute("UPDATE `query` set status = 3 where id= %s",[row[0]])
-                    db.commit()
-                    self.db.close_connection(cursor, db)
+                # except Exception as e:
+                #     cursor, db = self.db.getFreshConnection()
+                #     print("Exception")
+                #     print(e )
+                #     cursor.execute("UPDATE `query` set status = 3 where id= %s",[row[0]])
+                #     db.commit()
+                #     self.db.close_connection(cursor, db)
 
 
 
