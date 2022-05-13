@@ -169,12 +169,15 @@
                       <div>
                         <div>
                           <div class="row ms-4 me-4 mb-4">
+                            <form  method="post">
                             <div class="form-group mb-0 p-0">
                               <select
+                              required
                                 id="choices-multiple-remove-button"
                                 class="form-select rounded-pill selectlang py-4"
                                 placeholder="Select aspects"
                                 multiple
+                                name="aspects"
                                 style="background-color: #fdf5f5"
                               >
                                 <option disabled>Select Groups</option>
@@ -182,7 +185,9 @@
                                 <option value={{row.0}}>{{row.0}}</option>
                                 {% endfor %}
                               </select>
+                              <input type="submit" name="submit" value="search" id="">
                             </div>
+                          </form>
                           </div>
                         </div>
                       </div>
