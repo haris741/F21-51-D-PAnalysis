@@ -604,6 +604,22 @@
                                       {% for row in tweets_based_prediction %}
                                         <li
                                           class="px-3 py-1 mb-1"
+                                          {% if row.negative_positive_neutral == 'Negative' %}
+                                                style="
+                                                border-radius: 20px;
+                                                  background-color: #f8eded;
+                                                "
+                                                {% elif row.negative_positive_neutral == 'Positive' %}
+                                                style="
+                                                border-radius: 20px;
+                                                  background-color: #e1fbd4;
+                                                "
+                                                {% else %}
+                                                style="
+                                                border-radius: 20px;
+                                                background-color: #fef1d7;
+                                              "
+                                              {% endif %}
                                           style="
                                             border-radius: 20px;
                                             background-color: #f8eded;
@@ -680,293 +696,54 @@
                                           height: 500px;
                                         "
                                       >
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                      {% for row in tweets_based_prediction %}
+                                      <li
+                                        class="px-3 py-1 mb-1"
+                                        {% if row.humour == 'Funny' %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
+                                              border-radius: 20px;
+                                                background-color: #e1fbd4;
                                               "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                              
+                                              {% else %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
+                                              border-radius: 20px;
+                                              background-color: #fef1d7;
+                                            "
+                                            {% endif %}
+                                        
+                                      >
+                                        <div
+                                          class="d-flex align-items-center"
                                         >
+                                          <p class="m-0" style="width: 80%">
+                                           {{row.content}}
+                                          </p>
                                           <div
-                                            class="d-flex align-items-center"
+                                            class="d-flex"
+                                            style="
+                                              width: 20%;
+                                              flex-direction: row-reverse;
+                                              padding-right: 10px;
+                                            "
                                           >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
                                             <div
-                                              class="d-flex"
+                                              class="square"
+                                              {% if row.humour == 'Funny' %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
+                                                background-color: #4de600;
                                               "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                              
+                                              {% else %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
+                                              background-color: #f9a503;
+                                            "
+                                            {% endif %}
+                                            ></div>
                                           </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
+                                        </div>
+                                      </li>
+                                    {% endfor %}
                                       </ul>
                                     </div>
                                   </div>
@@ -1003,293 +780,63 @@
                                           height: 500px;
                                         "
                                       >
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                      
+                                      {% for row in tweets_based_prediction %}
+                                      <li
+                                        class="px-3 py-1 mb-1"
+                                        {% if row.hatespeech_offensive == 'Offensive' %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
+                                              border-radius: 20px;
+                                                background-color: #f8eded;
                                               "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                              {% elif row.hatespeech_offensive == 'Hate Speech' %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                              border-radius: 20px;
+                                              background-color: #fef1d7;
+                                            "
+                                              {% else %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
+                                              border-radius: 20px;
+                                              background-color: #e1fbd4;
+                                            "
+                                            {% endif %}
+                                        
+                                      >
+                                        <div
+                                          class="d-flex align-items-center"
                                         >
+                                          <p class="m-0" style="width: 80%">
+                                           {{row.content}}
+                                          </p>
                                           <div
-                                            class="d-flex align-items-center"
+                                            class="d-flex"
+                                            style="
+                                              width: 20%;
+                                              flex-direction: row-reverse;
+                                              padding-right: 10px;
+                                            "
                                           >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
                                             <div
-                                              class="d-flex"
+                                              class="square"
+                                              {% if row.hatespeech_offensive == 'Offensive' %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
+                                                background-color: #c21a1a;
                                               "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                              {% elif row.hatespeech_offensive == 'Hate Speech' %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
+                                              background-color: #f9a503;
+                                            "
+                                              {% else %}
                                               style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
+                                              background-color: #4de600;
+                                            "
+                                            {% endif %}
+                                            ></div>
                                           </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #f8eded;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              Worst hostel experidasdasdsaence!
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #c21a1a;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #faf7e4;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              The most outstanding thing and
-                                              what makes the stay at this hostel
-                                              worthwhile is the service.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #f9a503;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li
-                                          class="px-3 py-1 mb-1"
-                                          style="
-                                            border-radius: 20px;
-                                            background-color: #e1ffdb;
-                                          "
-                                        >
-                                          <div
-                                            class="d-flex align-items-center"
-                                          >
-                                            <p class="m-0" style="width: 80%">
-                                              PS: This type of hostel is not for
-                                              those who are claustrophobic.
-                                            </p>
-                                            <div
-                                              class="d-flex"
-                                              style="
-                                                width: 20%;
-                                                flex-direction: row-reverse;
-                                                padding-right: 10px;
-                                              "
-                                            >
-                                              <div
-                                                class="square"
-                                                style="
-                                                  background-color: #4de600;
-                                                "
-                                              ></div>
-                                            </div>
-                                          </div>
-                                        </li>
+                                        </div>
+                                      </li>
+                                    {% endfor %}
+                                      
                                       </ul>
                                     </div>
                                   </div>
