@@ -784,8 +784,8 @@ def showreport():
     # for meters
 
     cursor.execute("SELECT tweets_prediction.*, tweets.content, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
-    predictions = cursor.fetchall()
-    df = pd.DataFrame(predictions)
+    tweets_based_prediction = cursor.fetchall()
+    df = pd.DataFrame(tweets_based_prediction)
 
     meters ={}
     meters['fn'] = df[(df['humour'] == 'Funny') & (df['negative_positive_neutral'] == 'Negative') ].shape[0]
@@ -794,30 +794,19 @@ def showreport():
     meters['op'] = df[(df['hatespeech_offensive'] == 'Offensive') & (df['negative_positive_neutral'] == 'Positive') ].shape[0]
     meters['hn'] = df[(df['hatespeech_offensive'] == 'Hate Speech') & (df['negative_positive_neutral'] == 'Negative') ].shape[0]
     meters['hp'] = df[(df['hatespeech_offensive'] == 'Hate Speech') & (df['negative_positive_neutral'] == 'Positive') ].shape[0]
-    print(meters)
 
 
     # for aspect analysis
-    cursor.execute(''' 
-        SELECT 
-    (SELECT COUNT(*) from tweets_prediction where negative_positive_neutral = 'Negative') as negative,
-    (select count(*) from tweets_prediction where negative_positive_neutral = 'Positive') as positive,
-     (select count(*) from tweets_prediction where negative_positive_neutral = 'Neutral') as neutral, 
-    (SELECT count(*) from tweets_prediction where hatespeech_offensive = 'Hate Speech') as hatespeech,
-    (select count(*) from tweets_prediction where hatespeech_offensive = 'Offensive') as offensive,
-     (select count(*) from tweets_prediction where hatespeech_offensive = 'Neutral') as honeutral, 
-    (SELECT count(*) from tweets_prediction where humour = 'Funny' ) as funny,
-    (select count(*) from tweets_prediction where humour = 'Neutral') as fneutral
-  
-    ''')
-
-    aspectAnalysis = cursor.fetchone()
-
-
-    cursor.execute("SELECT tweets_prediction.*, tweets.content, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
-    tweets_based_prediction = cursor.fetchall()
-
-    df = pd.DataFrame(tweets_based_prediction)
+    aspectAnalysis = {}
+    aspectAnalysis['negative'] = df[(df['negative_positive_neutral'] == 'Negative') ].shape[0]
+    aspectAnalysis['positive'] = df[(df['negative_positive_neutral'] == 'Positive') ].shape[0]
+    aspectAnalysis['neutral'] = df[(df['negative_positive_neutral'] == 'Neutral') ].shape[0]
+    aspectAnalysis['hatespeech'] = df[(df['hatespeech_offensive'] == 'Hate Speech') ].shape[0]
+    aspectAnalysis['offensive']= df[(df['hatespeech_offensive'] == 'Offensive') ].shape[0]
+    aspectAnalysis['honeutral']= df[(df['hatespeech_offensive'] == 'Neutral') ].shape[0]
+    aspectAnalysis['funny']= df[(df['humour'] == 'Funny') ].shape[0]
+    aspectAnalysis['fneutral']= df[(df['humour'] == 'Neutral') ].shape[0]
+    
     count = Counter(" ".join(df["cleaned_content"]).split()).most_common(10)
     topAspects = Counter(" ".join(df["cleaned_content"]).split()).most_common(100)
 
