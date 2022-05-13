@@ -820,6 +820,8 @@ def showreport():
 
     df = pd.DataFrame(tweets_based_prediction)
     count = Counter(" ".join(df["cleaned_content"]).split()).most_common(10)
+    topAspects = Counter(" ".join(df["cleaned_content"]).split()).most_common(100)
+
     df['humour'].value_counts()
     a=[df['humour'].value_counts(), df['hatespeech_offensive'].value_counts(), df['negative_positive_neutral'].value_counts()]
     
@@ -839,6 +841,7 @@ def showreport():
      aspectAnalysis = aspectAnalysis,
      tweets_based_prediction = tweets_based_prediction,
      count= count,
+     topAspects = topAspects,
      dates= dates)
 
 

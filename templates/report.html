@@ -178,16 +178,9 @@
                                 style="background-color: #fdf5f5"
                               >
                                 <option disabled>Select Groups</option>
-                                <option value="af">30 Bencoolen</option>
-                                <option value="sq">10min</option>
-                                <option value="am">24h</option>
-                                <option value="ar">5min</option>
-                                <option value="an">28 Dunlop</option>
-                                <option value="hy">access</option>
-                                <option value="ast">accommodation</option>
-                                <option value="az">adapter</option>
-                                <option value="eu">advance</option>
-                                <option value="be">airport</option>
+                                {% for row in topAspects %}
+                                <option value={{row.0}}>{{row.0}}</option>
+                                {% endfor %}
                               </select>
                             </div>
                           </div>
