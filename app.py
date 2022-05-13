@@ -767,6 +767,8 @@ def user_dashboard():
     return render_template('user_dashboard.html')
 
 
+
+
 @app.route('/report', methods=['GET', 'POST'])
 def showreport():
     username = request.args.get('username', default=None, type=str)
@@ -778,24 +780,21 @@ def showreport():
     cursor.execute("SELECT count(cleaned_content), MONTH(tweetTS) FROM tweets WHERE UPPER(cleaned_content) LIKE UPPER('%% Spacex %%') GROUP BY MONTH(tweetTS)")
     dates= cursor.fetchall()
 
-
+   
     # for meters
 
-    cursor.execute('''
-        SELECT
-(select count(*) from tweets_prediction where humour = 'Funny' and negative_positive_neutral = 'Negative') as fn,
+    cursor.execute("SELECT tweets_prediction.*, tweets.content, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
+    predictions = cursor.fetchall()
+    df = pd.DataFrame(predictions)
 
-(select count(*) from tweets_prediction where humour = 'Funny' and negative_positive_neutral = 'Positive') as fp,
-(select count(*) from tweets_prediction where hatespeech_offensive = 'Offensive' and negative_positive_neutral = 'Positive') as op,
-(select count(*) from tweets_prediction where hatespeech_offensive = 'Offensive' and negative_positive_neutral = 'Negative') as `on`,
-(SELECT count(*) from tweets_prediction where hatespeech_offensive = 'Hate Speech' and negative_positive_neutral = 'Positive') as `hp`,
-(SELECT count(*) from tweets_prediction where hatespeech_offensive = 'Hate Speech' and negative_positive_neutral = 'Negative'
- ) as `hn`
-    
-    
-     ''')
-
-    meters = cursor.fetchone()
+    meters ={}
+    meters['fn'] = df[(df['humour'] == 'Funny') & (df['negative_positive_neutral'] == 'Negative') ].shape[0]
+    meters['fp'] = df[(df['humour'] == 'Funny') & (df['negative_positive_neutral'] == 'Positive') ].shape[0]
+    meters['on'] = df[(df['hatespeech_offensive'] == 'Offensive') & (df['negative_positive_neutral'] == 'Negative') ].shape[0]
+    meters['op'] = df[(df['hatespeech_offensive'] == 'Offensive') & (df['negative_positive_neutral'] == 'Positive') ].shape[0]
+    meters['hn'] = df[(df['hatespeech_offensive'] == 'Hate Speech') & (df['negative_positive_neutral'] == 'Negative') ].shape[0]
+    meters['hp'] = df[(df['hatespeech_offensive'] == 'Hate Speech') & (df['negative_positive_neutral'] == 'Positive') ].shape[0]
+    print(meters)
 
 
     # for aspect analysis
@@ -830,7 +829,6 @@ def showreport():
     data= pd.concat(a)
     data= data.to_dict()
     del a    
-    print(data)
 
 
     
