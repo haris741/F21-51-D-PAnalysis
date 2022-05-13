@@ -182,7 +182,11 @@
                               >
                                 <option disabled>Select Groups</option>
                                 {% for row in topAspects %}
+                                {% if row.0 in aspects %}
+                                <option selected value={{row.0}}>{{row.0}}</option>
+                                {% else %} 
                                 <option value={{row.0}}>{{row.0}}</option>
+                                {% endif %}
                                 {% endfor %}
                               </select>
                               <input type="submit" name="submit" value="search" id="">

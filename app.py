@@ -781,12 +781,26 @@ def showreport():
     dates= cursor.fetchall()
 
    
-    # for meters
+   
 
     cursor.execute("SELECT tweets_prediction.*, tweets.content, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username=%s", [username])
     tweets_based_prediction = cursor.fetchall()
-    df = pd.DataFrame(tweets_based_prediction)
-
+    df = pd.DataFrame(tweets_based_prediction) 
+    aspects = []
+    if(request.method== 'POST'):
+        
+        aspects = request.form.getlist('aspects')
+        query = ("SELECT tweets_prediction.*, tweets.content, tweets.cleaned_content from tweets_prediction inner join tweets on tweets_prediction.tweet_id = tweets.id where tweets.username='%s' AND (1=2 "% username)
+        for word in aspects:
+            query += "OR tweets.content LIKE '%" + word + "%' "; 
+        query += "); "
+        query.format(username)
+        print(query)
+        cursor.execute(query)
+        
+        tweets_based_prediction = cursor.fetchall()
+        df = pd.DataFrame(tweets_based_prediction)
+    # for meters
     meters ={}
     meters['fn'] = df[(df['humour'] == 'Funny') & (df['negative_positive_neutral'] == 'Negative') ].shape[0]
     meters['fp'] = df[(df['humour'] == 'Funny') & (df['negative_positive_neutral'] == 'Positive') ].shape[0]
@@ -829,6 +843,7 @@ def showreport():
      tweets_based_prediction = tweets_based_prediction,
      count= count,
      topAspects = topAspects,
+     aspects = aspects,
      dates= dates)
 
 
